@@ -1,10 +1,14 @@
-import { Download, Share2 } from 'lucide-react';
+import { Download, Share2, Save } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 
 const DiagramActions = () => {
   const handleDownloadPDF = () => {
     toast.info('Funcion de descarga PDF disponible proximamente');
+  };
+
+  const handleSave = () => {
+    toast.info('Proyecto guardado (proximamente)');
   };
 
   const handleShare = () => {
@@ -21,7 +25,11 @@ const DiagramActions = () => {
         <Download className="w-4 h-4" />
         DESCARGAR PDF
       </Button>
-      <Button onClick={handleShare} variant="secondary" className="gap-2 font-mono text-xs tracking-wide">
+      <Button onClick={handleSave} variant="secondary" className="gap-2 font-mono text-xs tracking-wide bg-success hover:bg-success/80 text-success-foreground">
+        <Save className="w-4 h-4" />
+        GUARDAR PROYECTO
+      </Button>
+      <Button onClick={handleShare} variant="secondary" className="gap-2 font-mono text-xs tracking-wide bg-accent hover:bg-accent/80 text-accent-foreground">
         <Share2 className="w-4 h-4" />
         COMPARTIR
       </Button>

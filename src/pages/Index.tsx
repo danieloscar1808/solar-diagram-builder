@@ -3,7 +3,8 @@ import { SolarConfig } from '@/types/solar';
 import ConfigPanel from '@/components/ConfigPanel';
 import SolarDiagram from '@/components/SolarDiagram';
 import DiagramActions from '@/components/DiagramActions';
-import { Sun } from 'lucide-react';
+import BottomNav from '@/components/BottomNav';
+import { Sun, ChevronRight, FileText } from 'lucide-react';
 
 const DEFAULT_CONFIG: SolarConfig = {
   systemType: 'off-grid',
@@ -14,6 +15,7 @@ const DEFAULT_CONFIG: SolarConfig = {
 
 const Index = () => {
   const [config, setConfig] = useState<SolarConfig>(DEFAULT_CONFIG);
+  const [activeTab, setActiveTab] = useState('inicio');
 
   return (
     <div className="flex flex-col h-screen bg-background overflow-hidden">
@@ -38,14 +40,27 @@ const Index = () => {
         </aside>
 
         {/* Diagram area */}
-        <main className="flex-1 p-4 overflow-auto relative">
-          <SolarDiagram config={config} />
+        <main className="flex-1 flex flex-col overflow-auto relative">
+          <div className="flex-1 p-4">
+            <SolarDiagram config={config} />
+          </div>
           {/* Action buttons */}
           <div className="absolute top-6 right-6">
             <DiagramActions />
           </div>
+          {/* Ver Documentacion */}
+          <div className="flex justify-center pb-2">
+            <button className="flex items-center gap-2 px-4 py-2 text-xs font-mono tracking-wide text-muted-foreground hover:text-foreground border border-border rounded transition-colors">
+              <FileText className="w-4 h-4" />
+              VER DOCUMENTACION
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
         </main>
       </div>
+
+      {/* Bottom navigation */}
+      <BottomNav active={activeTab} onNavigate={setActiveTab} />
     </div>
   );
 };
