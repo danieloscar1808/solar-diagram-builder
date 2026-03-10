@@ -25,7 +25,7 @@ const DiagramActions = () => {
         <Download className="w-4 h-4" />
         DESCARGAR PDF
       </Button>
-      <Button onClick={handleSave} variant="secondary" className="gap-2 font-mono text-xs tracking-wide bg-emerald-700 hover:bg-emerald-600 text-foreground border-emerald-600">
+      <Button onClick={handleSave} variant="secondary" className="gap-2 font-mono text-xs tracking-wide bg-success hover:bg-success/80 text-success-foreground">
         <Save className="w-4 h-4" />
         GUARDAR PROYECTO
       </Button>

@@ -74,6 +74,10 @@ export default {
           line: "hsl(var(--ac-line))",
         },
         ground: "hsl(var(--ground))",
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
