@@ -2,7 +2,9 @@ export type SystemType = 'off-grid' | 'on-grid' | 'hybrid';
 
 export interface InverterOption {
   id: string;
+  sku: string;
   label: string;
+  brand: string;
   voltage: number;
   power: number;
   type: SystemType;
