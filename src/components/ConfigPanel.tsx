@@ -53,7 +53,12 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
           <SelectTrigger><SelectValue /></SelectTrigger>
           <SelectContent>
             {filteredInverters.map(i => (
-              <SelectItem key={i.id} value={i.id}>{i.label}</SelectItem>
+              <SelectItem key={i.id} value={i.id}>
+                <span className="flex flex-col">
+                  <span>{i.label}</span>
+                  <span className="text-xs text-muted-foreground">{i.brand} — SKU: {i.sku}</span>
+                </span>
+              </SelectItem>
             ))}
           </SelectContent>
         </Select>
