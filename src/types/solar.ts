@@ -12,19 +12,22 @@ export interface InverterOption {
 
 export interface BatteryOption {
   id: string;
+  sku: string;
   label: string;
+  brand: string;
   voltage: number;
-  capacity: number;
-  count: number;
+  capacityAh: number;
+  capacityWh: number;
   chemistry: string;
 }
 
 export interface PanelOption {
   id: string;
+  sku: string;
   label: string;
-  totalKwp: number;
-  panelCount: number;
-  panelWatts: number;
+  brand: string;
+  watts: number;
+  technology: string;
 }
 
 export interface SolarConfig {
