@@ -68,20 +68,20 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
         <g transform="translate(350, 150)">
           <rect x="0" y="0" width="220" height="120" rx="6" fill="hsl(220, 42%, 14%)" stroke="hsl(200, 50%, 35%)" strokeWidth="2" />
           <text x="110" y="22" fontSize="11" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 90%)" textAnchor="middle" fontWeight="bold">
-            {systemLabel} INVERTER
+            INVERSOR {systemLabel}
           </text>
           <text x="110" y="38" fontSize="10" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
             {inverter ? `${inverter.voltage}V / ${inverter.power}W` : ''}
           </text>
           {/* Inner blocks */}
           <rect x="20" y="50" width="180" height="22" rx="3" fill="hsl(220, 30%, 20%)" stroke="hsl(215, 25%, 25%)" />
-          <text x="110" y="65" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)" textAnchor="middle">MPPT CHARGE CONTROLLER</text>
+          <text x="110" y="65" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)" textAnchor="middle">CONTROLADOR DE CARGA MPPT</text>
           <rect x="20" y="78" width="85" height="18" rx="3" fill="hsl(220, 30%, 20%)" stroke="hsl(215, 25%, 25%)" />
           <text x="62" y="90" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)" textAnchor="middle">
-            {inverter ? `${inverter.voltage}V BATTERY INPUT` : 'BATTERY INPUT'}
+            {inverter ? `ENTRADA BAT. ${inverter.voltage}V` : 'ENTRADA BATERIA'}
           </text>
           <rect x="115" y="78" width="85" height="18" rx="3" fill="hsl(220, 30%, 20%)" stroke="hsl(215, 25%, 25%)" />
-          <text x="157" y="90" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)" textAnchor="middle">AC OUTPUT 230V~</text>
+          <text x="157" y="90" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)" textAnchor="middle">SALIDA AC 220V~</text>
         </g>
 
         {/* AC output line to distribution panel */}
