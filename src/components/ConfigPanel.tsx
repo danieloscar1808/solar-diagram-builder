@@ -71,7 +71,12 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
             <SelectTrigger><SelectValue /></SelectTrigger>
             <SelectContent>
               {BATTERY_OPTIONS.map(b => (
-                <SelectItem key={b.id} value={b.id}>{b.label}</SelectItem>
+                <SelectItem key={b.id} value={b.id}>
+                  <span className="flex flex-col">
+                    <span>{b.label}</span>
+                    <span className="text-xs text-muted-foreground">{b.brand} — SKU: {b.sku}</span>
+                  </span>
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -84,7 +89,12 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
           <SelectTrigger><SelectValue /></SelectTrigger>
           <SelectContent>
             {PANEL_OPTIONS.map(p => (
-              <SelectItem key={p.id} value={p.id}>{p.label}</SelectItem>
+              <SelectItem key={p.id} value={p.id}>
+                <span className="flex flex-col">
+                  <span>{p.label}</span>
+                  <span className="text-xs text-muted-foreground">{p.brand} — SKU: {p.sku}</span>
+                </span>
+              </SelectItem>
             ))}
           </SelectContent>
         </Select>
