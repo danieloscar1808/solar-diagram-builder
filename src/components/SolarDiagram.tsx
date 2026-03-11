@@ -28,7 +28,7 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
         <g transform="translate(50, 30)">
           <SolarPanelGroup panelCount={4} />
           <text x="100" y="95" className="fill-foreground" fontSize="10" fontFamily="JetBrains Mono" textAnchor="middle">
-            SOLAR PANELS
+            PANELES SOLARES
           </text>
           <text x="100" y="108" className="fill-foreground" fontSize="9" fontFamily="JetBrains Mono" textAnchor="middle">
             {panel ? `${panel.watts}W ${panel.brand}` : ''}
