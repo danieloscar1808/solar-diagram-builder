@@ -89,8 +89,12 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
           <SelectTrigger><SelectValue /></SelectTrigger>
           <SelectContent>
             {PANEL_OPTIONS.map(p => (
-              <SelectItem key={p.id} value={p.id}>{p.label}</SelectItem>
-            ))}
+              <SelectItem key={p.id} value={p.id}>
+                <span className="flex flex-col">
+                  <span>{p.label}</span>
+                  <span className="text-xs text-muted-foreground">{p.brand} — SKU: {p.sku}</span>
+                </span>
+              </SelectItem>
           </SelectContent>
         </Select>
       </div>

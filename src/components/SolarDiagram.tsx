@@ -137,17 +137,17 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
               <rect x="0" y="0" width="200" height="90" rx="4" fill="hsl(220, 38%, 16%)" stroke="hsl(200, 50%, 35%)" strokeWidth="1.5" />
               <text x="100" y="18" fontSize="10" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 90%)" textAnchor="middle" fontWeight="bold">BATTERY BANK</text>
               <text x="100" y="34" fontSize="9" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
-                {battery.voltage}V {battery.capacity} kWh
+                {battery.voltage}V / {(battery.capacityWh / 1000).toFixed(1)} kWh
               </text>
               {/* Battery icons */}
-              {Array.from({ length: Math.min(battery.count, 6) }).map((_, i) => (
+              {Array.from({ length: Math.min(4, 4) }).map((_, i) => (
                 <g key={i} transform={`translate(${20 + i * 28}, 44)`}>
                   <rect x="0" y="0" width="22" height="32" rx="2" fill="hsl(220, 30%, 20%)" stroke="hsl(200, 50%, 35%)" strokeWidth="1" />
                   <rect x="6" y="-3" width="10" height="4" rx="1" fill="hsl(200, 50%, 35%)" />
                 </g>
               ))}
               <text x="100" y="86" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(215, 15%, 55%)" textAnchor="middle">
-                {battery.chemistry.toUpperCase()} BATTERIES {battery.count} x {battery.capacity / battery.count} kWh
+                {battery.chemistry} — {battery.brand} — SKU: {battery.sku}
               </text>
             </g>
 

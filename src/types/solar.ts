@@ -69,18 +69,49 @@ export const INVERTER_OPTIONS: InverterOption[] = [
 ];
 
 export const BATTERY_OPTIONS: BatteryOption[] = [
-  { id: 'bat-1', label: '24 V / 5 kWh', voltage: 24, capacity: 5, count: 2, chemistry: 'Litio' },
-  { id: 'bat-2', label: '48 V / 10 kWh', voltage: 48, capacity: 10, count: 2, chemistry: 'Litio' },
-  { id: 'bat-3', label: '48 V / 20 kWh', voltage: 48, capacity: 20, count: 4, chemistry: 'Litio' },
-  { id: 'bat-4', label: '48 V / 30 kWh', voltage: 48, capacity: 30, count: 6, chemistry: 'Litio' },
+  // Pylontech
+  { id: 'rt12100g31', sku: 'RT12100G31', label: 'Pylontech 12.8V 1280Wh', brand: 'Pylontech', voltage: 12.8, capacityAh: 100, capacityWh: 1280, chemistry: 'LiFePO4' },
+  { id: 'up2500', sku: 'UP2500', label: 'Pylontech 24V 2840Wh', brand: 'Pylontech', voltage: 24, capacityAh: 118, capacityWh: 2840, chemistry: 'LiFePO4' },
+  { id: 'us3000c', sku: 'US3000C', label: 'Pylontech 48V 3552Wh', brand: 'Pylontech', voltage: 48, capacityAh: 74, capacityWh: 3552, chemistry: 'LiFePO4' },
+  { id: 'up5000', sku: 'UP5000', label: 'Pylontech 48V 4800Wh', brand: 'Pylontech', voltage: 48, capacityAh: 100, capacityWh: 4800, chemistry: 'LiFePO4' },
+  { id: 'us5000', sku: 'US5000', label: 'Pylontech 48V 4800Wh (US5000)', brand: 'Pylontech', voltage: 48, capacityAh: 100, capacityWh: 4800, chemistry: 'LiFePO4' },
+  { id: 'uf5000', sku: 'UF5000', label: 'Pylontech 51.2V 5120Wh', brand: 'Pylontech', voltage: 51.2, capacityAh: 100, capacityWh: 5120, chemistry: 'LiFePO4' },
+  // Dyness
+  { id: 'ar12', sku: 'AR1.2', label: 'Dyness AR1.2 12.8V 1280Wh IP65', brand: 'Dyness', voltage: 12.8, capacityAh: 100, capacityWh: 1280, chemistry: 'LiFePO4' },
+  { id: 'b3', sku: 'B3', label: 'Dyness B3 48V 3600Wh', brand: 'Dyness', voltage: 48, capacityAh: 75, capacityWh: 3600, chemistry: 'LiFePO4' },
+  { id: 'bx51100', sku: 'BX51100', label: 'Dyness BX51100 51.2V 5120Wh', brand: 'Dyness', voltage: 51.2, capacityAh: 100, capacityWh: 5120, chemistry: 'LiFePO4' },
+  { id: 'powerbox-g2', sku: 'Powerbox G2', label: 'Dyness Powerbox G2 51.2V 10240Wh IP65', brand: 'Dyness', voltage: 51.2, capacityAh: 200, capacityWh: 10240, chemistry: 'LiFePO4' },
+  { id: 'powerbrick', sku: 'PowerBrick', label: 'Dyness Powerbrick 51.2V 14366Wh', brand: 'Dyness', voltage: 51.2, capacityAh: 280, capacityWh: 14366, chemistry: 'LiFePO4' },
+  // Ritar
+  { id: 'ritar-12-100', sku: 'LFP12.8V100AH G2', label: 'Ritar 12.8V 100Ah (1.28kWh)', brand: 'Ritar', voltage: 12.8, capacityAh: 100, capacityWh: 1280, chemistry: 'LiFePO4' },
+  { id: 'ritar-12-200', sku: 'LFP12.8V200AH G2', label: 'Ritar 12.8V 200Ah (2.56kWh)', brand: 'Ritar', voltage: 12.8, capacityAh: 200, capacityWh: 2560, chemistry: 'LiFePO4' },
+  { id: 'ritar-25-100', sku: 'LFP25.6V100AH G2', label: 'Ritar 25.6V 100Ah (2.56kWh)', brand: 'Ritar', voltage: 25.6, capacityAh: 100, capacityWh: 2560, chemistry: 'LiFePO4' },
+  { id: 'ritar-48-100', sku: 'R-LFP48V100Ah', label: 'Ritar 48V 100Ah (4.8kWh)', brand: 'Ritar', voltage: 48, capacityAh: 100, capacityWh: 4800, chemistry: 'LiFePO4' },
+  // GoodWe
+  { id: 'lynx-a-g3', sku: 'LX A5.0-30', label: 'GoodWe Lynx A G3 51.2V 5kWh', brand: 'GoodWe', voltage: 51.2, capacityAh: 100, capacityWh: 5000, chemistry: 'LiFePO4' },
+  { id: 'lynx-u-g3', sku: 'LX U5.0-30', label: 'GoodWe Lynx U G3 51.2V 5kWh IP65', brand: 'GoodWe', voltage: 51.2, capacityAh: 100, capacityWh: 5000, chemistry: 'LiFePO4' },
 ];
 
 export const PANEL_OPTIONS: PanelOption[] = [
-  { id: 'pan-1', label: '2.0 kWp (aprox.)', totalKwp: 2.0, panelCount: 4, panelWatts: 500 },
-  { id: 'pan-2', label: '3.5 kWp (aprox.)', totalKwp: 3.5, panelCount: 7, panelWatts: 500 },
-  { id: 'pan-3', label: '5.0 kWp (aprox.)', totalKwp: 5.0, panelCount: 10, panelWatts: 500 },
-  { id: 'pan-4', label: '6.5 kWp (aprox.)', totalKwp: 6.5, panelCount: 13, panelWatts: 500 },
-  { id: 'pan-5', label: '10 kWp (aprox.)', totalKwp: 10, panelCount: 20, panelWatts: 500 },
+  // Enertik - Potencias chicas/medianas
+  { id: 'ps-10m', sku: 'PS-10M', label: 'Monocristalino 10W', brand: 'Enertik', watts: 10, technology: 'Mono' },
+  { id: 'ps-30', sku: 'PS-30', label: 'Policristalino 30W', brand: 'Enertik', watts: 30, technology: 'Poli' },
+  { id: 'ps-30m', sku: 'PS-30M', label: 'Monocristalino 30W', brand: 'Enertik', watts: 30, technology: 'Mono' },
+  { id: 'ps-50', sku: 'PS-50', label: 'Policristalino 50W', brand: 'Enertik', watts: 50, technology: 'Poli' },
+  { id: 'ps-50m', sku: 'PS-50M', label: 'Monocristalino 50W', brand: 'Enertik', watts: 50, technology: 'Mono' },
+  { id: 'ps-90', sku: 'PS-90', label: 'Policristalino 90W', brand: 'Enertik', watts: 90, technology: 'Poli' },
+  { id: 'ps-100m', sku: 'PS-100M', label: 'Monocristalino 100W', brand: 'Enertik', watts: 100, technology: 'Mono' },
+  { id: 'ps-120', sku: 'PS-120', label: 'Policristalino 120W', brand: 'Enertik', watts: 120, technology: 'Poli' },
+  { id: 'ps-170m', sku: 'PS-170M', label: 'Monocristalino 170W', brand: 'Enertik', watts: 170, technology: 'Mono' },
+  { id: 'ps-210m', sku: 'PS-210M', label: 'Monocristalino 210W', brand: 'Enertik', watts: 210, technology: 'Mono' },
+  { id: 'ps-370m', sku: 'PS-370M', label: 'Monocristalino 370W', brand: 'Enertik', watts: 370, technology: 'Mono' },
+  // Amerisolar
+  { id: 'as-440w', sku: 'AS-7M108N-BHC-440W', label: 'N-TOPCON 440W', brand: 'Amerisolar', watts: 440, technology: 'N-TOPCon' },
+  { id: 'as-500w', sku: 'AS-7M132-HC-500W', label: 'Monocristalino 500W', brand: 'Amerisolar', watts: 500, technology: 'Mono' },
+  // Trina Solar
+  { id: 'trina-450', sku: 'TSM-450NEG9R.28', label: 'Vertex+ N-Type TOPCon 450W', brand: 'Trina Solar', watts: 450, technology: 'N-TOPCon' },
+  // Hanersun
+  { id: 'hanersun-500', sku: 'HN21RN-54HT500W', label: 'N-TOPCon Bifacial 500W', brand: 'Hanersun', watts: 500, technology: 'N-TOPCon Bifacial' },
 ];
 
 export const ACCESSORIES = [
