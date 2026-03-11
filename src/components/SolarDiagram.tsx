@@ -26,12 +26,12 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
       >
         {/* Solar Panels */}
         <g transform="translate(50, 30)">
-          <SolarPanelGroup panelCount={panel?.panelCount || 4} />
+          <SolarPanelGroup panelCount={4} />
           <text x="100" y="95" className="fill-foreground" fontSize="10" fontFamily="JetBrains Mono" textAnchor="middle">
             SOLAR PANELS
           </text>
           <text x="100" y="108" className="fill-foreground" fontSize="9" fontFamily="JetBrains Mono" textAnchor="middle">
-            {panel?.totalKwp || 0} kWp
+            {panel ? `${panel.watts}W ${panel.brand}` : ''}
           </text>
         </g>
 
