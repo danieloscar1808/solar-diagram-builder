@@ -11,8 +11,8 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
   const showBatteries = config.systemType !== 'on-grid';
   const showGrid = config.systemType !== 'off-grid';
 
-  const systemLabel = config.systemType === 'off-grid' ? 'OFF-GRID' : config.systemType === 'on-grid' ? 'ON-GRID' : 'HYBRID';
-  const titleText = `${systemLabel} SOLAR SYSTEM SINGLE LINE DIAGRAM`;
+  const systemLabel = config.systemType === 'off-grid' ? 'AISLADO (OFF-GRID)' : config.systemType === 'on-grid' ? 'CONECTADO A RED (ON-GRID)' : 'HIBRIDO';
+  const titleText = `DIAGRAMA UNIFILAR — SISTEMA SOLAR ${systemLabel}`;
 
   return (
     <div id="solar-diagram-export" className="diagram-container blueprint-grid w-full h-full overflow-auto p-4 flex flex-col">
