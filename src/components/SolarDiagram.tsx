@@ -135,7 +135,7 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
             {/* Battery Bank */}
             <g transform="translate(100, 340)">
               <rect x="0" y="0" width="200" height="90" rx="4" fill="hsl(220, 38%, 16%)" stroke="hsl(200, 50%, 35%)" strokeWidth="1.5" />
-              <text x="100" y="18" fontSize="10" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 90%)" textAnchor="middle" fontWeight="bold">BATTERY BANK</text>
+              <text x="100" y="18" fontSize="10" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 90%)" textAnchor="middle" fontWeight="bold">BANCO DE BATERIAS</text>
               <text x="100" y="34" fontSize="9" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
                 {battery.voltage}V / {(battery.capacityWh / 1000).toFixed(1)} kWh
               </text>
