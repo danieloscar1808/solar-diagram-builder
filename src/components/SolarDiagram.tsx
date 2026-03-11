@@ -42,18 +42,18 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
         {/* DC Combiner Box */}
         <g transform="translate(80, 170)">
           <rect x="0" y="0" width="160" height="80" rx="4" fill="hsl(220, 38%, 16%)" stroke="hsl(200, 50%, 35%)" strokeWidth="1.5" />
-          <text x="80" y="18" fontSize="10" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 90%)" textAnchor="middle" fontWeight="bold">DC COMBINER BOX</text>
+          <text x="80" y="18" fontSize="10" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 90%)" textAnchor="middle" fontWeight="bold">CAJA COMBINADORA DC</text>
           <g transform="translate(15, 28)">
             <rect x="0" y="0" width="8" height="8" fill="hsl(0, 80%, 55%)" rx="1" />
-            <text x="14" y="8" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">DC FUSES</text>
+            <text x="14" y="8" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">FUSIBLES DC</text>
           </g>
           <g transform="translate(15, 42)">
             <rect x="0" y="0" width="8" height="8" fill="hsl(0, 80%, 55%)" rx="1" />
-            <text x="14" y="8" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">DC DISCONNECT</text>
+            <text x="14" y="8" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">SECCIONADOR DC</text>
           </g>
           <g transform="translate(15, 56)">
             <rect x="0" y="0" width="8" height="8" fill="hsl(42, 100%, 50%)" rx="1" />
-            <text x="14" y="8" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">SURGE PROTECTOR</text>
+            <text x="14" y="8" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">PROTECTOR SOBRETENSIONES</text>
           </g>
         </g>
 
