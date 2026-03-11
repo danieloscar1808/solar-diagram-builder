@@ -95,6 +95,7 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
                   <span className="text-xs text-muted-foreground">{p.brand} — SKU: {p.sku}</span>
                 </span>
               </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>
