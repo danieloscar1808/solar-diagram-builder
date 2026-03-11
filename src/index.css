@@ -42,9 +42,9 @@
     --ground: 50 90% 55%;
     --success: 152 60% 32%;
     --success-foreground: 210 20% 90%;
-    --diagram-bg: 220 45% 10%;
-    --diagram-grid: 220 30% 18%;
-    --diagram-border: 200 50% 35%;
+    --diagram-bg: 220 10% 85%;
+    --diagram-grid: 220 10% 75%;
+    --diagram-border: 210 15% 50%;
 
     --sidebar-background: 220 42% 14%;
     --sidebar-foreground: 210 20% 90%;
