@@ -129,7 +129,7 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
             {/* DC Breaker */}
             <g transform="translate(340, 320)">
               <rect x="0" y="0" width="110" height="25" rx="3" fill="hsl(220, 38%, 16%)" stroke="hsl(200, 50%, 35%)" strokeWidth="1" />
-              <text x="55" y="16" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)" textAnchor="middle">DC BREAKER</text>
+              <text x="55" y="16" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)" textAnchor="middle">BREAKER DC</text>
             </g>
 
             {/* Battery Bank */}
