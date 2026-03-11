@@ -20,7 +20,7 @@ const DiagramActions = () => {
 
     try {
       const canvas = await html2canvas(element, {
-        backgroundColor: '#111827',
+        backgroundColor: '#d4d4d8',
         scale: 2,
         useCORS: true,
       });
