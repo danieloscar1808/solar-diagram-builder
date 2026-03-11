@@ -160,12 +160,12 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
         {/* Grounding */}
         <g transform="translate(450, 430)">
           <rect x="0" y="0" width="160" height="60" rx="4" fill="hsl(220, 38%, 16%)" stroke="hsl(50, 90%, 55%)" strokeWidth="1.5" strokeDasharray="4 2" />
-          <text x="80" y="18" fontSize="10" fontFamily="JetBrains Mono" fill="hsl(50, 90%, 55%)" textAnchor="middle" fontWeight="bold">GROUNDING</text>
+          <text x="80" y="18" fontSize="10" fontFamily="JetBrains Mono" fill="hsl(50, 90%, 55%)" textAnchor="middle" fontWeight="bold">PUESTA A TIERRA</text>
           <g transform="translate(15, 26)">
-            <text x="0" y="8" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">+ GROUND BUS</text>
+            <text x="0" y="8" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">+ BARRA DE TIERRA</text>
           </g>
           <g transform="translate(15, 40)">
-            <text x="0" y="8" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">+ EARTH ROD</text>
+            <text x="0" y="8" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">+ JABALINA</text>
           </g>
         </g>
 
