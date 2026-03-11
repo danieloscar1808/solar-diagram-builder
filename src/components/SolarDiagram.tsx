@@ -99,23 +99,23 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
         {/* AC Distribution Panel */}
         <g transform="translate(650, 195)">
           <rect x="0" y="0" width="180" height="110" rx="4" fill="hsl(220, 38%, 16%)" stroke="hsl(200, 50%, 35%)" strokeWidth="1.5" />
-          <text x="90" y="18" fontSize="10" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 90%)" textAnchor="middle" fontWeight="bold">AC DISTRIBUTION PANEL</text>
+          <text x="90" y="18" fontSize="10" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 90%)" textAnchor="middle" fontWeight="bold">TABLERO DE DIST. AC</text>
           <g transform="translate(15, 28)">
             <rect x="0" y="0" width="12" height="12" rx="2" fill="hsl(200, 70%, 45%)" />
             <text x="2" y="10" fontSize="8" fill="hsl(220, 40%, 10%)" fontFamily="JetBrains Mono" fontWeight="bold">I</text>
-            <text x="18" y="10" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">MAIN BREAKER</text>
+            <text x="18" y="10" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">INTERRUPTOR PRINCIPAL</text>
           </g>
           <g transform="translate(15, 48)">
             <rect x="0" y="0" width="12" height="12" rx="2" fill="hsl(42, 100%, 50%)" />
             <text x="2" y="10" fontSize="8" fill="hsl(220, 40%, 10%)" fontFamily="JetBrains Mono" fontWeight="bold">!</text>
-            <text x="18" y="10" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">RCD / SURGE PROTECTOR</text>
+            <text x="18" y="10" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">DIFERENCIAL / PROTECTOR</text>
           </g>
           <g transform="translate(15, 68)">
             <rect x="0" y="0" width="12" height="12" rx="6" fill="hsl(200, 70%, 45%)" />
             <text x="6" y="9" fontSize="7" fill="hsl(220, 40%, 10%)" fontFamily="JetBrains Mono" fontWeight="bold" textAnchor="middle">+</text>
-            <text x="18" y="10" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">AC LOADS</text>
+            <text x="18" y="10" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">CARGAS AC</text>
           </g>
-          <text x="90" y="100" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(215, 15%, 55%)" textAnchor="middle">Household Circuits</text>
+          <text x="90" y="100" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(215, 15%, 55%)" textAnchor="middle">Circuitos del Hogar</text>
         </g>
 
         {showBatteries && battery && (
