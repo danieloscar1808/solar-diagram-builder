@@ -11,8 +11,8 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
   const showBatteries = config.systemType !== 'on-grid';
   const showGrid = config.systemType !== 'off-grid';
 
-  const systemLabel = config.systemType === 'off-grid' ? 'OFF-GRID' : config.systemType === 'on-grid' ? 'ON-GRID' : 'HYBRID';
-  const titleText = `${systemLabel} SOLAR SYSTEM SINGLE LINE DIAGRAM`;
+  const systemLabel = config.systemType === 'off-grid' ? 'AISLADO (OFF-GRID)' : config.systemType === 'on-grid' ? 'CONECTADO A RED (ON-GRID)' : 'HIBRIDO';
+  const titleText = `DIAGRAMA UNIFILAR — SISTEMA SOLAR ${systemLabel}`;
 
   return (
     <div id="solar-diagram-export" className="diagram-container blueprint-grid w-full h-full overflow-auto p-4 flex flex-col">
@@ -28,7 +28,7 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
         <g transform="translate(50, 30)">
           <SolarPanelGroup panelCount={4} />
           <text x="100" y="95" className="fill-foreground" fontSize="10" fontFamily="JetBrains Mono" textAnchor="middle">
-            SOLAR PANELS
+            PANELES SOLARES
           </text>
           <text x="100" y="108" className="fill-foreground" fontSize="9" fontFamily="JetBrains Mono" textAnchor="middle">
             {panel ? `${panel.watts}W ${panel.brand}` : ''}
@@ -42,18 +42,18 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
         {/* DC Combiner Box */}
         <g transform="translate(80, 170)">
           <rect x="0" y="0" width="160" height="80" rx="4" fill="hsl(220, 38%, 16%)" stroke="hsl(200, 50%, 35%)" strokeWidth="1.5" />
-          <text x="80" y="18" fontSize="10" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 90%)" textAnchor="middle" fontWeight="bold">DC COMBINER BOX</text>
+          <text x="80" y="18" fontSize="10" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 90%)" textAnchor="middle" fontWeight="bold">CAJA COMBINADORA DC</text>
           <g transform="translate(15, 28)">
             <rect x="0" y="0" width="8" height="8" fill="hsl(0, 80%, 55%)" rx="1" />
-            <text x="14" y="8" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">DC FUSES</text>
+            <text x="14" y="8" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">FUSIBLES DC</text>
           </g>
           <g transform="translate(15, 42)">
             <rect x="0" y="0" width="8" height="8" fill="hsl(0, 80%, 55%)" rx="1" />
-            <text x="14" y="8" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">DC DISCONNECT</text>
+            <text x="14" y="8" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">SECCIONADOR DC</text>
           </g>
           <g transform="translate(15, 56)">
             <rect x="0" y="0" width="8" height="8" fill="hsl(42, 100%, 50%)" rx="1" />
-            <text x="14" y="8" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">SURGE PROTECTOR</text>
+            <text x="14" y="8" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">PROTECTOR SOBRETENSIONES</text>
           </g>
         </g>
 
@@ -68,20 +68,20 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
         <g transform="translate(350, 150)">
           <rect x="0" y="0" width="220" height="120" rx="6" fill="hsl(220, 42%, 14%)" stroke="hsl(200, 50%, 35%)" strokeWidth="2" />
           <text x="110" y="22" fontSize="11" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 90%)" textAnchor="middle" fontWeight="bold">
-            {systemLabel} INVERTER
+            INVERSOR {systemLabel}
           </text>
           <text x="110" y="38" fontSize="10" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
             {inverter ? `${inverter.voltage}V / ${inverter.power}W` : ''}
           </text>
           {/* Inner blocks */}
           <rect x="20" y="50" width="180" height="22" rx="3" fill="hsl(220, 30%, 20%)" stroke="hsl(215, 25%, 25%)" />
-          <text x="110" y="65" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)" textAnchor="middle">MPPT CHARGE CONTROLLER</text>
+          <text x="110" y="65" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)" textAnchor="middle">CONTROLADOR DE CARGA MPPT</text>
           <rect x="20" y="78" width="85" height="18" rx="3" fill="hsl(220, 30%, 20%)" stroke="hsl(215, 25%, 25%)" />
           <text x="62" y="90" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)" textAnchor="middle">
-            {inverter ? `${inverter.voltage}V BATTERY INPUT` : 'BATTERY INPUT'}
+            {inverter ? `ENTRADA BAT. ${inverter.voltage}V` : 'ENTRADA BATERIA'}
           </text>
           <rect x="115" y="78" width="85" height="18" rx="3" fill="hsl(220, 30%, 20%)" stroke="hsl(215, 25%, 25%)" />
-          <text x="157" y="90" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)" textAnchor="middle">AC OUTPUT 230V~</text>
+          <text x="157" y="90" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)" textAnchor="middle">SALIDA AC 220V~</text>
         </g>
 
         {/* AC output line to distribution panel */}
@@ -99,23 +99,23 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
         {/* AC Distribution Panel */}
         <g transform="translate(650, 195)">
           <rect x="0" y="0" width="180" height="110" rx="4" fill="hsl(220, 38%, 16%)" stroke="hsl(200, 50%, 35%)" strokeWidth="1.5" />
-          <text x="90" y="18" fontSize="10" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 90%)" textAnchor="middle" fontWeight="bold">AC DISTRIBUTION PANEL</text>
+          <text x="90" y="18" fontSize="10" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 90%)" textAnchor="middle" fontWeight="bold">TABLERO DE DIST. AC</text>
           <g transform="translate(15, 28)">
             <rect x="0" y="0" width="12" height="12" rx="2" fill="hsl(200, 70%, 45%)" />
             <text x="2" y="10" fontSize="8" fill="hsl(220, 40%, 10%)" fontFamily="JetBrains Mono" fontWeight="bold">I</text>
-            <text x="18" y="10" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">MAIN BREAKER</text>
+            <text x="18" y="10" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">INTERRUPTOR PRINCIPAL</text>
           </g>
           <g transform="translate(15, 48)">
             <rect x="0" y="0" width="12" height="12" rx="2" fill="hsl(42, 100%, 50%)" />
             <text x="2" y="10" fontSize="8" fill="hsl(220, 40%, 10%)" fontFamily="JetBrains Mono" fontWeight="bold">!</text>
-            <text x="18" y="10" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">RCD / SURGE PROTECTOR</text>
+            <text x="18" y="10" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">DIFERENCIAL / PROTECTOR</text>
           </g>
           <g transform="translate(15, 68)">
             <rect x="0" y="0" width="12" height="12" rx="6" fill="hsl(200, 70%, 45%)" />
             <text x="6" y="9" fontSize="7" fill="hsl(220, 40%, 10%)" fontFamily="JetBrains Mono" fontWeight="bold" textAnchor="middle">+</text>
-            <text x="18" y="10" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">AC LOADS</text>
+            <text x="18" y="10" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">CARGAS AC</text>
           </g>
-          <text x="90" y="100" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(215, 15%, 55%)" textAnchor="middle">Household Circuits</text>
+          <text x="90" y="100" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(215, 15%, 55%)" textAnchor="middle">Circuitos del Hogar</text>
         </g>
 
         {showBatteries && battery && (
@@ -129,13 +129,13 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
             {/* DC Breaker */}
             <g transform="translate(340, 320)">
               <rect x="0" y="0" width="110" height="25" rx="3" fill="hsl(220, 38%, 16%)" stroke="hsl(200, 50%, 35%)" strokeWidth="1" />
-              <text x="55" y="16" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)" textAnchor="middle">DC BREAKER</text>
+              <text x="55" y="16" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)" textAnchor="middle">BREAKER DC</text>
             </g>
 
             {/* Battery Bank */}
             <g transform="translate(100, 340)">
               <rect x="0" y="0" width="200" height="90" rx="4" fill="hsl(220, 38%, 16%)" stroke="hsl(200, 50%, 35%)" strokeWidth="1.5" />
-              <text x="100" y="18" fontSize="10" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 90%)" textAnchor="middle" fontWeight="bold">BATTERY BANK</text>
+              <text x="100" y="18" fontSize="10" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 90%)" textAnchor="middle" fontWeight="bold">BANCO DE BATERIAS</text>
               <text x="100" y="34" fontSize="9" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
                 {battery.voltage}V / {(battery.capacityWh / 1000).toFixed(1)} kWh
               </text>
@@ -160,12 +160,12 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
         {/* Grounding */}
         <g transform="translate(450, 430)">
           <rect x="0" y="0" width="160" height="60" rx="4" fill="hsl(220, 38%, 16%)" stroke="hsl(50, 90%, 55%)" strokeWidth="1.5" strokeDasharray="4 2" />
-          <text x="80" y="18" fontSize="10" fontFamily="JetBrains Mono" fill="hsl(50, 90%, 55%)" textAnchor="middle" fontWeight="bold">GROUNDING</text>
+          <text x="80" y="18" fontSize="10" fontFamily="JetBrains Mono" fill="hsl(50, 90%, 55%)" textAnchor="middle" fontWeight="bold">PUESTA A TIERRA</text>
           <g transform="translate(15, 26)">
-            <text x="0" y="8" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">+ GROUND BUS</text>
+            <text x="0" y="8" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">+ BARRA DE TIERRA</text>
           </g>
           <g transform="translate(15, 40)">
-            <text x="0" y="8" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">+ EARTH ROD</text>
+            <text x="0" y="8" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">+ JABALINA</text>
           </g>
         </g>
 
