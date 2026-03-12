@@ -11,6 +11,10 @@ const DEFAULT_CONFIG: SolarConfig = {
   inverterId: 'ivp-1k-12',
   batteryId: 'rt12100g31',
   panelId: 'ps-100m',
+  cableDcPanelId: 'dc-4mm',
+  cableDcBatteryId: 'dc-4mm',
+  cableAcId: 'ac-2.5mm',
+  cableTierraId: 'tierra-4mm',
 };
 
 const Index = () => {
