@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/solar-diagram-builder/sw.js', { scope: '/solar-diagram-builder/' })})}
