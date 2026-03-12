@@ -1,4 +1,4 @@
-import { SolarConfig, INVERTER_OPTIONS, BATTERY_OPTIONS, PANEL_OPTIONS } from '@/types/solar';
+import { SolarConfig, INVERTER_OPTIONS, BATTERY_OPTIONS, PANEL_OPTIONS, CABLE_OPTIONS } from '@/types/solar';
 
 interface SolarDiagramProps {
   config: SolarConfig;
@@ -8,6 +8,10 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
   const inverter = INVERTER_OPTIONS.find(i => i.id === config.inverterId);
   const battery = BATTERY_OPTIONS.find(b => b.id === config.batteryId);
   const panel = PANEL_OPTIONS.find(p => p.id === config.panelId);
+  const cableDcPanel = CABLE_OPTIONS.find(c => c.id === config.cableDcPanelId);
+  const cableDcBattery = CABLE_OPTIONS.find(c => c.id === config.cableDcBatteryId);
+  const cableAc = CABLE_OPTIONS.find(c => c.id === config.cableAcId);
+  const cableTierra = CABLE_OPTIONS.find(c => c.id === config.cableTierraId);
   const showBatteries = config.systemType !== 'on-grid';
   const showGrid = config.systemType !== 'off-grid';
 
@@ -20,9 +24,9 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
         {titleText}
       </h3>
       <svg
-        viewBox="0 0 900 550"
+        viewBox="0 0 900 580"
         className="w-full flex-1"
-        style={{ minHeight: 400 }}
+        style={{ minHeight: 420 }}
       >
         {/* Solar Panels */}
         <g transform="translate(50, 30)">
@@ -38,6 +42,15 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
         {/* DC Lines from panels to combiner box */}
         <line x1="150" y1="140" x2="150" y2="170" stroke="hsl(0, 80%, 55%)" strokeWidth="2" />
         <line x1="160" y1="140" x2="160" y2="170" stroke="hsl(220, 80%, 55%)" strokeWidth="2" />
+        {/* Cable label: Panel → Caja Combinadora */}
+        {cableDcPanel && (
+          <g>
+            <rect x="170" y="145" width="90" height="20" rx="3" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(200, 50%, 35%)" strokeWidth="0.5" />
+            <text x="215" y="158" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
+              DC {cableDcPanel.section}
+            </text>
+          </g>
+        )}
 
         {/* DC Combiner Box */}
         <g transform="translate(80, 170)">
@@ -60,9 +73,17 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
         {/* DC Lines from combiner to inverter */}
         <line x1="240" y1="210" x2="350" y2="210" stroke="hsl(0, 80%, 55%)" strokeWidth="2" />
         <line x1="240" y1="220" x2="350" y2="220" stroke="hsl(220, 80%, 55%)" strokeWidth="2" />
-        {/* Arrow markers */}
         <polygon points="348,206 356,210 348,214" fill="hsl(0, 80%, 55%)" />
         <polygon points="348,216 356,220 348,224" fill="hsl(220, 80%, 55%)" />
+        {/* Cable label: Caja → Inversor */}
+        {cableDcPanel && (
+          <g>
+            <rect x="260" y="193" width="72" height="14" rx="2" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(200, 50%, 35%)" strokeWidth="0.5" />
+            <text x="296" y="203" fontSize="6.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
+              DC {cableDcPanel.section}
+            </text>
+          </g>
+        )}
 
         {/* Inverter */}
         <g transform="translate(350, 150)">
@@ -73,7 +94,6 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
           <text x="110" y="38" fontSize="10" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
             {inverter ? `${inverter.voltage}V / ${inverter.power}W` : ''}
           </text>
-          {/* Inner blocks */}
           <rect x="20" y="50" width="180" height="22" rx="3" fill="hsl(220, 30%, 20%)" stroke="hsl(215, 25%, 25%)" />
           <text x="110" y="65" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)" textAnchor="middle">CONTROLADOR DE CARGA MPPT</text>
           <rect x="20" y="78" width="85" height="18" rx="3" fill="hsl(220, 30%, 20%)" stroke="hsl(215, 25%, 25%)" />
@@ -87,10 +107,18 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
         {/* AC output line to distribution panel */}
         <line x1="570" y1="240" x2="650" y2="240" stroke="hsl(42, 100%, 50%)" strokeWidth="2.5" />
         <polygon points="648,236 656,240 648,244" fill="hsl(42, 100%, 50%)" />
+        {/* Cable label: AC Inversor → Tablero */}
+        {cableAc && (
+          <g>
+            <rect x="582" y="245" width="72" height="14" rx="2" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(42, 100%, 50%)" strokeWidth="0.5" />
+            <text x="618" y="255" fontSize="6.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
+              AC {cableAc.section}
+            </text>
+          </g>
+        )}
 
         {showGrid && (
           <>
-            {/* Grid connection line */}
             <line x1="570" y1="160" x2="850" y2="160" stroke="hsl(0, 80%, 55%)" strokeWidth="3" />
             <text x="710" y="152" fontSize="9" fontFamily="JetBrains Mono" fill="hsl(0, 80%, 55%)" textAnchor="middle">RED ELECTRICA</text>
           </>
@@ -125,6 +153,15 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
             <line x1="400" y1="270" x2="400" y2="340" stroke="hsl(220, 80%, 55%)" strokeWidth="2" />
             <polygon points="386,338 390,348 394,338" fill="hsl(0, 80%, 55%)" />
             <polygon points="396,338 400,348 404,338" fill="hsl(220, 80%, 55%)" />
+            {/* Cable label: DC Inversor → Baterías */}
+            {cableDcBattery && (
+              <g>
+                <rect x="408" y="285" width="82" height="14" rx="2" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(200, 50%, 35%)" strokeWidth="0.5" />
+                <text x="449" y="295" fontSize="6.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
+                  DC BAT {cableDcBattery.section}
+                </text>
+              </g>
+            )}
 
             {/* DC Breaker */}
             <g transform="translate(340, 320)">
@@ -139,7 +176,6 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
               <text x="100" y="34" fontSize="9" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
                 {battery.voltage}V / {(battery.capacityWh / 1000).toFixed(1)} kWh
               </text>
-              {/* Battery icons */}
               {Array.from({ length: Math.min(4, 4) }).map((_, i) => (
                 <g key={i} transform={`translate(${20 + i * 28}, 44)`}>
                   <rect x="0" y="0" width="22" height="32" rx="2" fill="hsl(220, 30%, 20%)" stroke="hsl(200, 50%, 35%)" strokeWidth="1" />
@@ -158,7 +194,7 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
         )}
 
         {/* Grounding */}
-        <g transform="translate(450, 430)">
+        <g transform="translate(450, 460)">
           <rect x="0" y="0" width="160" height="60" rx="4" fill="hsl(220, 38%, 16%)" stroke="hsl(50, 90%, 55%)" strokeWidth="1.5" strokeDasharray="4 2" />
           <text x="80" y="18" fontSize="10" fontFamily="JetBrains Mono" fill="hsl(50, 90%, 55%)" textAnchor="middle" fontWeight="bold">PUESTA A TIERRA</text>
           <g transform="translate(15, 26)">
@@ -170,8 +206,17 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
         </g>
 
         {/* Ground line */}
-        <line x1="460" y1="270" x2="460" y2="430" stroke="hsl(50, 90%, 55%)" strokeWidth="1.5" strokeDasharray="6 3" />
-        <line x1="460" y1="430" x2="450" y2="430" stroke="hsl(50, 90%, 55%)" strokeWidth="1.5" strokeDasharray="6 3" />
+        <line x1="460" y1="270" x2="460" y2="460" stroke="hsl(50, 90%, 55%)" strokeWidth="1.5" strokeDasharray="6 3" />
+        <line x1="460" y1="460" x2="450" y2="460" stroke="hsl(50, 90%, 55%)" strokeWidth="1.5" strokeDasharray="6 3" />
+        {/* Cable label: Tierra */}
+        {cableTierra && (
+          <g>
+            <rect x="465" y="410" width="80" height="14" rx="2" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(50, 90%, 55%)" strokeWidth="0.5" />
+            <text x="505" y="420" fontSize="6.5" fontFamily="JetBrains Mono" fill="hsl(50, 90%, 55%)" textAnchor="middle">
+              TIERRA {cableTierra.section}
+            </text>
+          </g>
+        )}
       </svg>
     </div>
   );
@@ -186,7 +231,6 @@ const SolarPanelGroup = ({ panelCount }: { panelCount: number }) => {
 
   return (
     <g>
-      {/* Support structure */}
       <line x1={startX + 10} y1="75" x2={startX + 10} y2="85" stroke="hsl(215, 15%, 45%)" strokeWidth="2" />
       <line x1={startX + totalWidth - 10} y1="75" x2={startX + totalWidth - 10} y2="85" stroke="hsl(215, 15%, 45%)" strokeWidth="2" />
       <line x1={startX} y1="85" x2={startX + totalWidth} y2="85" stroke="hsl(215, 15%, 45%)" strokeWidth="2" />
@@ -195,7 +239,6 @@ const SolarPanelGroup = ({ panelCount }: { panelCount: number }) => {
         <g key={i} transform={`translate(${startX + i * (panelWidth + gap)}, 10)`}>
           <rect x="0" y="0" width={panelWidth} height="65" rx="1"
             fill="hsl(220, 50%, 25%)" stroke="hsl(200, 50%, 35%)" strokeWidth="0.8" />
-          {/* Grid lines */}
           <line x1="0" y1="16" x2={panelWidth} y2="16" stroke="hsl(200, 40%, 30%)" strokeWidth="0.4" />
           <line x1="0" y1="32" x2={panelWidth} y2="32" stroke="hsl(200, 40%, 30%)" strokeWidth="0.4" />
           <line x1="0" y1="48" x2={panelWidth} y2="48" stroke="hsl(200, 40%, 30%)" strokeWidth="0.4" />

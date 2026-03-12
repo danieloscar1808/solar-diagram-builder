@@ -1,8 +1,8 @@
 import { SolarConfig, SystemType, INVERTER_OPTIONS, ACCESSORIES } from '@/types/solar';
-import { getCompatibleBatteries, getCompatiblePanels } from '@/lib/compatibility';
+import { getCompatibleBatteries, getCompatiblePanels, getCompatibleCables } from '@/lib/compatibility';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
-import { ChevronDown, ChevronRight, AlertTriangle } from 'lucide-react';
+import { ChevronDown, ChevronRight, AlertTriangle, Cable } from 'lucide-react';
 import { useState, useMemo } from 'react';
 
 interface ConfigPanelProps {
@@ -18,6 +18,7 @@ const SYSTEM_TYPES: { value: SystemType; label: string }[] = [
 
 const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
   const [showAccessories, setShowAccessories] = useState(false);
+  const [showCables, setShowCables] = useState(true);
 
   const filteredInverters = INVERTER_OPTIONS.filter(i => i.type === config.systemType);
   const selectedInverter = INVERTER_OPTIONS.find(i => i.id === config.inverterId);
@@ -33,14 +34,37 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
     [selectedInverter]
   );
 
+  const compatibleDcCables = useMemo(
+    () => getCompatibleCables(selectedInverter, 'dc'),
+    [selectedInverter]
+  );
+
+  const compatibleAcCables = useMemo(
+    () => getCompatibleCables(selectedInverter, 'ac'),
+    [selectedInverter]
+  );
+
+  const compatibleTierraCables = useMemo(
+    () => getCompatibleCables(selectedInverter, 'tierra'),
+    [selectedInverter]
+  );
+
   const handleSystemTypeChange = (value: SystemType) => {
     const firstInverter = INVERTER_OPTIONS.find(i => i.type === value);
+    const inv = firstInverter;
+    const dcCables = getCompatibleCables(inv, 'dc');
+    const acCables = getCompatibleCables(inv, 'ac');
+    const tierraCables = getCompatibleCables(inv, 'tierra');
     onChange({
       ...config,
       systemType: value,
       inverterId: firstInverter?.id || '',
       batteryId: value === 'on-grid' ? '' : '',
       panelId: '',
+      cableDcPanelId: dcCables[0]?.id || '',
+      cableDcBatteryId: dcCables[0]?.id || '',
+      cableAcId: acCables[0]?.id || '',
+      cableTierraId: tierraCables[0]?.id || '',
     });
   };
 
@@ -48,21 +72,31 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
     const inv = INVERTER_OPTIONS.find(i => i.id === inverterId);
     const newBatteries = getCompatibleBatteries(inv);
     const newPanels = getCompatiblePanels(inv);
+    const newDcCables = getCompatibleCables(inv, 'dc');
+    const newAcCables = getCompatibleCables(inv, 'ac');
+    const newTierraCables = getCompatibleCables(inv, 'tierra');
 
-    // Reset battery/panel if no longer compatible
     const batteryStillValid = newBatteries.some(b => b.id === config.batteryId);
     const panelStillValid = newPanels.some(p => p.id === config.panelId);
+    const dcPanelStillValid = newDcCables.some(c => c.id === config.cableDcPanelId);
+    const dcBatStillValid = newDcCables.some(c => c.id === config.cableDcBatteryId);
+    const acStillValid = newAcCables.some(c => c.id === config.cableAcId);
+    const tierraStillValid = newTierraCables.some(c => c.id === config.cableTierraId);
 
     onChange({
       ...config,
       inverterId,
       batteryId: batteryStillValid ? config.batteryId : (newBatteries[0]?.id || ''),
       panelId: panelStillValid ? config.panelId : (newPanels[0]?.id || ''),
+      cableDcPanelId: dcPanelStillValid ? config.cableDcPanelId : (newDcCables[0]?.id || ''),
+      cableDcBatteryId: dcBatStillValid ? config.cableDcBatteryId : (newDcCables[0]?.id || ''),
+      cableAcId: acStillValid ? config.cableAcId : (newAcCables[0]?.id || ''),
+      cableTierraId: tierraStillValid ? config.cableTierraId : (newTierraCables[0]?.id || ''),
     });
   };
 
   return (
-    <div className="flex flex-col gap-6 p-6 bg-card rounded-lg border border-border h-full">
+    <div className="flex flex-col gap-6 p-6 bg-card rounded-lg border border-border h-full overflow-y-auto">
       <h2 className="text-lg font-semibold tracking-wide">Configurar Sistema</h2>
 
       <div className="flex flex-col gap-1.5">
@@ -157,6 +191,93 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
           </Select>
         )}
       </div>
+
+      {/* Cableado */}
+      <button
+        onClick={() => setShowCables(!showCables)}
+        className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors text-left"
+      >
+        {showCables ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+        <Cable className="w-4 h-4" />
+        Cableado
+      </button>
+      {showCables && (
+        <div className="flex flex-col gap-4 pl-2 border-l-2 border-border">
+          {/* Cable DC Panel-Inversor */}
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs text-muted-foreground">Cable DC: Paneles → Inversor</label>
+            <Select value={config.cableDcPanelId} onValueChange={v => onChange({ ...config, cableDcPanelId: v })}>
+              <SelectTrigger className="h-8 text-xs"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                {compatibleDcCables.map(c => (
+                  <SelectItem key={c.id} value={c.id}>
+                    <span className="flex flex-col">
+                      <span>{c.label}</span>
+                      <span className="text-xs text-muted-foreground">{c.description}</span>
+                    </span>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Cable DC Inversor-Batería */}
+          {showBatteries && (
+            <div className="flex flex-col gap-1.5">
+              <label className="text-xs text-muted-foreground">Cable DC: Inversor → Baterías</label>
+              <Select value={config.cableDcBatteryId} onValueChange={v => onChange({ ...config, cableDcBatteryId: v })}>
+                <SelectTrigger className="h-8 text-xs"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  {compatibleDcCables.map(c => (
+                    <SelectItem key={c.id} value={c.id}>
+                      <span className="flex flex-col">
+                        <span>{c.label}</span>
+                        <span className="text-xs text-muted-foreground">{c.description}</span>
+                      </span>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+
+          {/* Cable AC */}
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs text-muted-foreground">Cable AC: Inversor → Tablero</label>
+            <Select value={config.cableAcId} onValueChange={v => onChange({ ...config, cableAcId: v })}>
+              <SelectTrigger className="h-8 text-xs"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                {compatibleAcCables.map(c => (
+                  <SelectItem key={c.id} value={c.id}>
+                    <span className="flex flex-col">
+                      <span>{c.label}</span>
+                      <span className="text-xs text-muted-foreground">{c.description}</span>
+                    </span>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Cable Tierra */}
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs text-muted-foreground">Cable Tierra</label>
+            <Select value={config.cableTierraId} onValueChange={v => onChange({ ...config, cableTierraId: v })}>
+              <SelectTrigger className="h-8 text-xs"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                {compatibleTierraCables.map(c => (
+                  <SelectItem key={c.id} value={c.id}>
+                    <span className="flex flex-col">
+                      <span>{c.label}</span>
+                      <span className="text-xs text-muted-foreground">{c.description}</span>
+                    </span>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+      )}
 
       <button
         onClick={() => setShowAccessories(!showAccessories)}

@@ -30,12 +30,44 @@ export interface PanelOption {
   technology: string;
 }
 
+export interface CableOption {
+  id: string;
+  label: string;
+  section: string; // mm²
+  type: 'dc' | 'ac' | 'tierra';
+  maxAmps: number;
+  description: string;
+}
+
 export interface SolarConfig {
   systemType: SystemType;
   inverterId: string;
   batteryId: string;
   panelId: string;
+  cableDcPanelId: string;
+  cableDcBatteryId: string;
+  cableAcId: string;
+  cableTierraId: string;
 }
+
+export const CABLE_OPTIONS: CableOption[] = [
+  // Cables DC - Panel a Inversor
+  { id: 'dc-4mm', label: 'Cable Solar DC 4mm²', section: '4mm²', type: 'dc', maxAmps: 30, description: 'Hasta 1000W — 30A máx.' },
+  { id: 'dc-6mm', label: 'Cable Solar DC 6mm²', section: '6mm²', type: 'dc', maxAmps: 40, description: 'Hasta 2000W — 40A máx.' },
+  { id: 'dc-10mm', label: 'Cable Solar DC 10mm²', section: '10mm²', type: 'dc', maxAmps: 60, description: 'Hasta 5000W — 60A máx.' },
+  { id: 'dc-16mm', label: 'Cable Solar DC 16mm²', section: '16mm²', type: 'dc', maxAmps: 80, description: 'Hasta 8000W — 80A máx.' },
+  { id: 'dc-25mm', label: 'Cable Solar DC 25mm²', section: '25mm²', type: 'dc', maxAmps: 120, description: 'Hasta 12000W — 120A máx.' },
+  { id: 'dc-35mm', label: 'Cable Solar DC 35mm²', section: '35mm²', type: 'dc', maxAmps: 150, description: 'Hasta 15000W — 150A máx.' },
+  // Cables AC
+  { id: 'ac-2.5mm', label: 'Cable AC 2.5mm²', section: '2.5mm²', type: 'ac', maxAmps: 20, description: 'Hasta 4400W — 20A máx.' },
+  { id: 'ac-4mm', label: 'Cable AC 4mm²', section: '4mm²', type: 'ac', maxAmps: 32, description: 'Hasta 7000W — 32A máx.' },
+  { id: 'ac-6mm', label: 'Cable AC 6mm²', section: '6mm²', type: 'ac', maxAmps: 40, description: 'Hasta 8800W — 40A máx.' },
+  { id: 'ac-10mm', label: 'Cable AC 10mm²', section: '10mm²', type: 'ac', maxAmps: 63, description: 'Hasta 13860W — 63A máx.' },
+  // Cable de Tierra
+  { id: 'tierra-4mm', label: 'Cable Tierra 4mm²', section: '4mm²', type: 'tierra', maxAmps: 30, description: 'Verde/Amarillo — Sistemas hasta 3kW' },
+  { id: 'tierra-6mm', label: 'Cable Tierra 6mm²', section: '6mm²', type: 'tierra', maxAmps: 40, description: 'Verde/Amarillo — Sistemas hasta 8kW' },
+  { id: 'tierra-10mm', label: 'Cable Tierra 10mm²', section: '10mm²', type: 'tierra', maxAmps: 60, description: 'Verde/Amarillo — Sistemas hasta 15kW' },
+];
 
 export const INVERTER_OPTIONS: InverterOption[] = [
   // OFF-GRID - Enertik PWM
