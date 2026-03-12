@@ -27,7 +27,7 @@ export default defineConfig(({ mode }) => ({
       manifest: {
         name: "solar",
         short_name: "solar",
-        start_url: "/solar-diagram-builder/",
+        start_url: ".",
         display: "standalone",
         background_color: "#000000",
         theme_color: "#000000",
