@@ -25,9 +25,9 @@ export default defineConfig(({ mode }) => ({
     VitePWA({
       registerType: "autoUpdate",
       manifest: {
-        name: "Prompt",
-        short_name: "Prompt",
-        start_url: "/NOMBRE-REPOSITORIO/",
+        name: "solar",
+        short_name: "solar",
+        start_url: "/solar-diagram-builder/",
         display: "standalone",
         background_color: "#000000",
         theme_color: "#000000",
