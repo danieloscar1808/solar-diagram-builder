@@ -102,7 +102,9 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
       <div className="flex flex-col gap-1.5">
         <label className="text-sm text-muted-foreground">Tipo de Sistema</label>
         <Select value={config.systemType} onValueChange={handleSystemTypeChange}>
-          <SelectTrigger><SelectValue /></SelectTrigger>
+          <SelectTrigger className="w-full h-12 text-sm">
+          <SelectValue />
+          </SelectTrigger>
           <SelectContent>
             {SYSTEM_TYPES.map(t => (
               <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>
@@ -114,7 +116,9 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
       <div className="flex flex-col gap-1.5">
         <label className="text-sm text-muted-foreground">Inversor</label>
         <Select value={config.inverterId} onValueChange={handleInverterChange}>
-          <SelectTrigger><SelectValue /></SelectTrigger>
+          <SelectTrigger className="w-full h-12 text-sm">
+          <SelectValue />
+          </SelectTrigger>
           <SelectContent>
             {filteredInverters.map(i => (
               <SelectItem key={i.id} value={i.id}>
@@ -145,7 +149,9 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
             </div>
           ) : (
             <Select value={config.batteryId} onValueChange={v => onChange({ ...config, batteryId: v })}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectTrigger className="w-full h-12 text-sm">
+              <SelectValue />
+              </SelectTrigger>
               <SelectContent>
                 {compatibleBatteries.map(b => (
                   <SelectItem key={b.id} value={b.id}>
@@ -177,7 +183,9 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
           </div>
         ) : (
           <Select value={config.panelId} onValueChange={v => onChange({ ...config, panelId: v })}>
-            <SelectTrigger><SelectValue /></SelectTrigger>
+            <SelectTrigger className="w-full h-12 text-sm">
+            <SelectValue />
+            </SelectTrigger>
             <SelectContent>
               {compatiblePanels.map(p => (
                 <SelectItem key={p.id} value={p.id}>
