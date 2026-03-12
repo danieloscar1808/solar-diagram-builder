@@ -8,9 +8,9 @@ import { Sun, ChevronRight, FileText } from 'lucide-react';
 
 const DEFAULT_CONFIG: SolarConfig = {
   systemType: 'off-grid',
-  inverterId: 'inv-2',
-  batteryId: 'bat-3',
-  panelId: 'pan-4',
+  inverterId: 'ivp-1k-12',
+  batteryId: 'rt12100g31',
+  panelId: 'ps-100m',
 };
 
 const Index = () => {
