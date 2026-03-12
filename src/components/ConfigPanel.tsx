@@ -1,8 +1,9 @@
-import { SolarConfig, SystemType, INVERTER_OPTIONS, BATTERY_OPTIONS, PANEL_OPTIONS, ACCESSORIES } from '@/types/solar';
+import { SolarConfig, SystemType, INVERTER_OPTIONS, ACCESSORIES } from '@/types/solar';
+import { getCompatibleBatteries, getCompatiblePanels } from '@/lib/compatibility';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
-import { ChevronDown, ChevronRight } from 'lucide-react';
-import { useState } from 'react';
+import { ChevronDown, ChevronRight, AlertTriangle } from 'lucide-react';
+import { useState, useMemo } from 'react';
 
 interface ConfigPanelProps {
   config: SolarConfig;
@@ -19,7 +20,18 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
   const [showAccessories, setShowAccessories] = useState(false);
 
   const filteredInverters = INVERTER_OPTIONS.filter(i => i.type === config.systemType);
+  const selectedInverter = INVERTER_OPTIONS.find(i => i.id === config.inverterId);
   const showBatteries = config.systemType !== 'on-grid';
+
+  const compatibleBatteries = useMemo(
+    () => getCompatibleBatteries(selectedInverter),
+    [selectedInverter]
+  );
+
+  const compatiblePanels = useMemo(
+    () => getCompatiblePanels(selectedInverter),
+    [selectedInverter]
+  );
 
   const handleSystemTypeChange = (value: SystemType) => {
     const firstInverter = INVERTER_OPTIONS.find(i => i.type === value);
@@ -27,7 +39,25 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
       ...config,
       systemType: value,
       inverterId: firstInverter?.id || '',
-      batteryId: value === 'on-grid' ? '' : config.batteryId,
+      batteryId: value === 'on-grid' ? '' : '',
+      panelId: '',
+    });
+  };
+
+  const handleInverterChange = (inverterId: string) => {
+    const inv = INVERTER_OPTIONS.find(i => i.id === inverterId);
+    const newBatteries = getCompatibleBatteries(inv);
+    const newPanels = getCompatiblePanels(inv);
+
+    // Reset battery/panel if no longer compatible
+    const batteryStillValid = newBatteries.some(b => b.id === config.batteryId);
+    const panelStillValid = newPanels.some(p => p.id === config.panelId);
+
+    onChange({
+      ...config,
+      inverterId,
+      batteryId: batteryStillValid ? config.batteryId : (newBatteries[0]?.id || ''),
+      panelId: panelStillValid ? config.panelId : (newPanels[0]?.id || ''),
     });
   };
 
@@ -49,7 +79,7 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
 
       <div className="flex flex-col gap-1.5">
         <label className="text-sm text-muted-foreground">Inversor</label>
-        <Select value={config.inverterId} onValueChange={v => onChange({ ...config, inverterId: v })}>
+        <Select value={config.inverterId} onValueChange={handleInverterChange}>
           <SelectTrigger><SelectValue /></SelectTrigger>
           <SelectContent>
             {filteredInverters.map(i => (
@@ -66,38 +96,66 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
 
       {showBatteries && (
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm text-muted-foreground">Banco de Baterias</label>
-          <Select value={config.batteryId} onValueChange={v => onChange({ ...config, batteryId: v })}>
+          <label className="text-sm text-muted-foreground flex items-center gap-2">
+            Banco de Baterías
+            {selectedInverter && (
+              <span className="text-xs text-accent-foreground bg-accent px-2 py-0.5 rounded">
+                Compatible: {selectedInverter.voltage}V
+              </span>
+            )}
+          </label>
+          {compatibleBatteries.length === 0 ? (
+            <div className="flex items-center gap-2 text-sm text-destructive p-2 bg-destructive/10 rounded">
+              <AlertTriangle className="w-4 h-4" />
+              No hay baterías compatibles con este inversor
+            </div>
+          ) : (
+            <Select value={config.batteryId} onValueChange={v => onChange({ ...config, batteryId: v })}>
+              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectContent>
+                {compatibleBatteries.map(b => (
+                  <SelectItem key={b.id} value={b.id}>
+                    <span className="flex flex-col">
+                      <span>{b.label}</span>
+                      <span className="text-xs text-muted-foreground">{b.brand} — {b.voltage}V {b.capacityWh}Wh — SKU: {b.sku}</span>
+                    </span>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
+        </div>
+      )}
+
+      <div className="flex flex-col gap-1.5">
+        <label className="text-sm text-muted-foreground flex items-center gap-2">
+          Paneles Solares
+          {selectedInverter && (
+            <span className="text-xs text-accent-foreground bg-accent px-2 py-0.5 rounded">
+              {selectedInverter.power}W inversor
+            </span>
+          )}
+        </label>
+        {compatiblePanels.length === 0 ? (
+          <div className="flex items-center gap-2 text-sm text-destructive p-2 bg-destructive/10 rounded">
+            <AlertTriangle className="w-4 h-4" />
+            No hay paneles compatibles con este inversor
+          </div>
+        ) : (
+          <Select value={config.panelId} onValueChange={v => onChange({ ...config, panelId: v })}>
             <SelectTrigger><SelectValue /></SelectTrigger>
             <SelectContent>
-              {BATTERY_OPTIONS.map(b => (
-                <SelectItem key={b.id} value={b.id}>
+              {compatiblePanels.map(p => (
+                <SelectItem key={p.id} value={p.id}>
                   <span className="flex flex-col">
-                    <span>{b.label}</span>
-                    <span className="text-xs text-muted-foreground">{b.brand} — SKU: {b.sku}</span>
+                    <span>{p.label}</span>
+                    <span className="text-xs text-muted-foreground">{p.brand} — {p.watts}W {p.technology} — SKU: {p.sku}</span>
                   </span>
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
-        </div>
-      )}
-
-      <div className="flex flex-col gap-1.5">
-        <label className="text-sm text-muted-foreground">Paneles Solares</label>
-        <Select value={config.panelId} onValueChange={v => onChange({ ...config, panelId: v })}>
-          <SelectTrigger><SelectValue /></SelectTrigger>
-          <SelectContent>
-            {PANEL_OPTIONS.map(p => (
-              <SelectItem key={p.id} value={p.id}>
-                <span className="flex flex-col">
-                  <span>{p.label}</span>
-                  <span className="text-xs text-muted-foreground">{p.brand} — SKU: {p.sku}</span>
-                </span>
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        )}
       </div>
 
       <button
