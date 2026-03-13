@@ -15,6 +15,12 @@ const DEFAULT_CONFIG: SolarConfig = {
   cableDcBatteryId: 'dc-4mm',
   cableAcId: 'ac-2.5mm',
   cableTierraId: 'tierra-4mm',
+  chargerId: '',
+  cableDcPanelChargerId: '',
+  cableDcChargerBatteryId: '',
+  breakerDcPanelId: 'bk-dc-10',
+  breakerDcBatteryId: 'bk-dc-10',
+  breakerAcId: 'bk-ac-10',
 };
 
 const Index = () => {
@@ -23,7 +29,6 @@ const Index = () => {
 
   return (
     <div className="flex flex-col h-screen bg-background overflow-hidden">
-      {/* Header */}
       <header className="flex items-center justify-between px-6 py-3 border-b border-border bg-card">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded bg-primary flex items-center justify-center">
@@ -36,23 +41,18 @@ const Index = () => {
         </div>
       </header>
 
-      {/* Main content */}
       <div className="flex flex-1 overflow-hidden">
-        {/* Left sidebar */}
         <aside className="w-72 shrink-0 border-r border-border overflow-y-auto">
           <ConfigPanel config={config} onChange={setConfig} />
         </aside>
 
-        {/* Diagram area */}
         <main className="flex-1 flex flex-col overflow-auto relative">
           <div className="flex-1 p-4">
             <SolarDiagram config={config} />
           </div>
-          {/* Action buttons */}
           <div className="absolute top-6 right-6">
             <DiagramActions />
           </div>
-          {/* Ver Documentacion */}
           <div className="flex justify-center pb-2">
             <button className="flex items-center gap-2 px-4 py-2 text-xs font-mono tracking-wide text-muted-foreground hover:text-foreground border border-border rounded transition-colors">
               <FileText className="w-4 h-4" />
@@ -63,7 +63,6 @@ const Index = () => {
         </main>
       </div>
 
-      {/* Bottom navigation */}
       <BottomNav active={activeTab} onNavigate={setActiveTab} />
     </div>
   );
