@@ -451,4 +451,4 @@ const SolarPanelGroup = ({ panelCount }: { panelCount: number }) => {
   );
 };
 
-export default S
+export default SolarDiagram;
