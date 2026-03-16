@@ -77,6 +77,8 @@ export interface SolarConfig {
   breakerDcPanelId: string;
   breakerDcBatteryId: string;
   breakerAcId: string;
+  breakerDcPanelChargerId: string;
+  breakerDcChargerBatteryId: string;
 }
 
 export const CABLE_OPTIONS: CableOption[] = [
