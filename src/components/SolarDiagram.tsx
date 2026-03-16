@@ -49,11 +49,11 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
         {/* Solar Panels */}
         <g transform="translate(300, 10)">
           <SolarPanelGroup panelCount={4} />
-          <text x="100" y="95" className="fill-black" fontSize="10" fontFamily="JetBrains Mono" textAnchor="middle">
+          <text x="100" y="95" fontSize="10" fontFamily="JetBrains Mono" textAnchor="middle" fill={brandColor(panel?.brand, 'hsl(210, 20%, 15%)')}>
             PANELES SOLARES
           </text>
-          <text x="100" y="108" className="fill-black" fontSize="9" fontFamily="JetBrains Mono" textAnchor="middle">
-            {panel ? `${panel.watts}W ${panel.brand}` : ''}
+          <text x="100" y="108" fontSize="9" fontFamily="JetBrains Mono" textAnchor="middle" fill={brandColor(panel?.brand, 'hsl(210, 20%, 15%)')}>
+            {panel ? `${panel.watts}W ${panel.brand}${panel.brand !== 'Enertik' ? ' (Recomendado)' : ''}` : ''}
           </text>
         </g>
 
