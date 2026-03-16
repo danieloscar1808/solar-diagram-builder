@@ -52,20 +52,20 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
         </g>
 
         {/* DC Lines from panels down */}
-        <line x1="150" y1="50" x2="150" y2="349" stroke="hsl(0, 80%, 55%)" strokeWidth="2" />
+        <line x1="150" y1="50" x2="150" y2="218" stroke="hsl(0, 80%, 55%)" strokeWidth="2" />
         <line x1="150" y1="50" x2="340" y2="50" stroke="hsl(0, 80%, 55%)" strokeWidth="2" />
         <polygon points="146,211 150,219 154,211" fill="hsl(0, 80%, 55%)" />
-        <line x1="165" y1="65" x2="165" y2="349" stroke="hsl(220, 80%, 55%)" strokeWidth="2" />
+        <line x1="165" y1="65" x2="165" y2="218" stroke="hsl(220, 80%, 55%)" strokeWidth="2" />
         <line x1="165" y1="65" x2="340" y2="65" stroke="hsl(220, 80%, 55%)" strokeWidth="2" />
         <polygon points="161,211 165,219 169,211" fill="hsl(220, 80%, 55%)" />
         
-
+        
 
         {/* Breaker DC Paneles - between panels and next component */}
         {breakerDcPanel && (
           <g transform="translate(90, 170)">
-            <rect x="0" y="0" width="130" height="22" rx="3" fill="hsl(220, 38%, 16%)" stroke="hsl(42, 100%, 50%)" strokeWidth="1" />
-            <text x="65" y="15" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
+            <rect x="9" y="0" width="110" height="24" rx="3" fill="hsl(220, 38%, 16%)" stroke="hsl(42, 100%, 50%)" strokeWidth="1" />
+            <text x="65" y="15" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
               {config.systemType === 'on-grid' ? 'BREAKER DC' : 'BREAKER DC PANELES'} {breakerDcPanel.amps}A
             </text>
           </g>
@@ -75,7 +75,7 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
         {(showCharger ? cableDcPanelCharger : cableDcPanel) && (
           <g>
             <rect x="250" y="70" width="90" height="15" rx="3" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(200, 50%, 35%)" strokeWidth="0.5" />
-            <text x="295" y="80" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
+            <text x="295" y="80" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
               DC PANELES {(showCharger ? cableDcPanelCharger : cableDcPanel)?.section}
             </text>
           </g>
@@ -121,7 +121,7 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
                  {breakerDcBattery && (
                   <g transform="translate(250, 410)">
                     <rect x="0" y="0" width="130" height="22" rx="3" fill="hsl(220, 38%, 16%)" stroke="hsl(42, 100%, 50%)" strokeWidth="1" />
-                    <text x="65" y="15" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
+                    <text x="65" y="15" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
                       BREAKER DC BAT {breakerDcBattery.amps}A
                     </text>
                   </g>
@@ -153,11 +153,14 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
                 <polygon points="278,391 270,395 278,399" fill="hsl(220, 80%, 55%)" />
                 <line x1="390" y1="385" x2="270" y2="385" stroke="hsl(0, 80%, 55%)" strokeWidth="2" />
                 <polygon points="278,381 270,385 278,389" fill="hsl(0, 80%, 55%)" />
+
+                <line x1="150" y1="218" x2="150" y2="350" stroke="hsl(0, 80%, 55%)" strokeWidth="2" />
+                <line x1="165" y1="218" x2="165" y2="350" stroke="hsl(220, 80%, 55%)" strokeWidth="2" />
                 
                 {cableDcBattery && (
                   <g>
                     <rect x="300" y="400" width="72" height="14" rx="2" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(200, 50%, 35%)" strokeWidth="0.5" />
-                    <text x="336" y="409" fontSize="6.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
+                    <text x="336" y="409" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
                       DC BAT {cableDcBattery.section}
                     </text>
                   </g>
@@ -184,30 +187,33 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
               <text x="157" y="90" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)" textAnchor="middle">SALIDA AC 220V~</text>
             </g>
 
+            {/* Lineas 220V de inversor sin cargador a tablero AC del domicilio */}
+            <line x1="570" y1="250" x2="700" y2="250" stroke="hsl(209, 77%, 73%)" strokeWidth="2.5" />
+            <polygon points="692,246 700,250 692,254" fill="hsl(209, 77%, 73%)" />
+            <line x1="570" y1="235" x2="700" y2="235" stroke="hsla(22, 70%, 60%, 0.77)" strokeWidth="2.5" />
+            <polygon points="692,231 700,235 692,239" fill="hsla(22, 70%, 60%, 0.77)" />
+
             {/* Breaker AC */}
             {breakerAc && (
-              <g transform="translate(595, 240)">
-                <rect x="0" y="0" width="80" height="22" rx="3" fill="hsl(220, 38%, 16%)" stroke="hsl(42, 100%, 50%)" strokeWidth="1" />
-                <text x="40" y="15" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
+              <g transform="translate(595, 230)">
+                <rect x="0" y="0" width="80" height="25" rx="3" fill="hsl(220, 38%, 16%)" stroke="hsl(42, 100%, 50%)" strokeWidth="1" />
+                <text x="40" y="15" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
                   BK AC {breakerAc.amps}A
                 </text>
               </g>
             )}
-
-            {/* AC output line */}
-            <line x1="570" y1="400" x2="650" y2="400" stroke="hsla(43, 82%, 35%, 0.91)" strokeWidth="2.5" />
-            <polygon points="648,396 656,400 648,404" fill="hsl(43, 82%, 35%, 0.91)" />
+                                   
             {cableAc && (
               <g>
-                <rect x="550" y="300" width="72" height="14" rx="2" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(42, 100%, 50%)" strokeWidth="0.5" />
-                <text x="600" y="310" fontSize="6.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
+                <rect x="600" y="270" width="72" height="14" rx="2" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(42, 100%, 50%)" strokeWidth="0.5" />
+                <text x="635" y="280" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
                   AC {cableAc.section}
                 </text>
               </g>
             )}
 
             {/* AC Distribution Panel */}
-            <g transform="translate(700, 170)">
+            <g transform="translate(700, 200)">
               <rect x="0" y="0" width="180" height="110" rx="4" fill="hsl(220, 38%, 16%)" stroke="hsl(200, 50%, 35%)" strokeWidth="1.5" />
               <text x="90" y="18" fontSize="10" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 90%)" textAnchor="middle" fontWeight="bold">TABLERO DE DIST. AC</text>
               <g transform="translate(15, 28)">
@@ -227,6 +233,8 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
               </g>
               <text x="90" y="100" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(215, 15%, 55%)" textAnchor="middle">Circuitos del Hogar</text>
             </g>
+
+           
 
             {/* Ground */}
             <g transform="translate(600, 400)">
@@ -278,7 +286,7 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
             {cableTierra && (
               <g>
                 <rect x="510" y="410" width="80" height="14" rx="2" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(50, 90%, 55%)" strokeWidth="0.5" />
-                <text x="550" y="420" fontSize="6.5" fontFamily="JetBrains Mono" fill="hsl(50, 90%, 55%)" textAnchor="middle">
+                <text x="550" y="420" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(50, 90%, 55%)" textAnchor="middle">
                   TIERRA {cableTierra.section}
                 </text>
               </g>
@@ -293,6 +301,9 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
           </>
         ) : (
           <>
+            
+            
+            
             {/* Standard layout without external charger */}
             {/* DC Combiner Box */}
             <g transform="translate(80, 220)">
@@ -320,8 +331,8 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
             
             {cableDcPanel && (
               <g>
-                <rect x="260" y="203" width="72" height="14" rx="2" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(200, 50%, 35%)" strokeWidth="0.5" />
-                <text x="296" y="213" fontSize="6.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
+                <rect x="247" y="260" width="72" height="14" rx="2" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(200, 50%, 35%)" strokeWidth="0.5" />
+                <text x="283" y="270" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
                   DC {cableDcPanel.section}
                 </text>
               </g>
@@ -348,16 +359,6 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
               <text x="157" y="90" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)" textAnchor="middle">SALIDA AC 220V~</text>
             </g>
 
-            {/* Breaker AC */}
-            {breakerAc && (
-              <g transform="translate(600, 231)">
-                <rect x="0" y="0" width="80" height="22" rx="3" fill="hsl(220, 38%, 16%)" stroke="hsl(42, 100%, 50%)" strokeWidth="1" />
-                <text x="40" y="15" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
-                  BK AC {breakerAc.amps}A
-                </text>
-              </g>
-            )}
-
             {/* AC output line to distribution panel */}
             <line x1="590" y1="250" x2="700" y2="250" stroke="hsl(209, 77%, 73%)" strokeWidth="2.5" />
             <polygon points="692,246 700,250 692,254" fill="hsl(209, 77%, 73%)" />
@@ -365,12 +366,24 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
             <polygon points="692,231 700,235 692,239" fill="hsla(22, 70%, 60%, 0.77)" />
             {cableAc && (
               <g>
-                <rect x="600" y="255" width="72" height="14" rx="2" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(42, 100%, 50%)" strokeWidth="0.5" />
-                <text x="635" y="265" fontSize="6.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
+                <rect x="605" y="260" width="72" height="14" rx="2" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(42, 100%, 50%)" strokeWidth="0.5" />
+                <text x="640" y="270" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
                   AC {cableAc.section}
                 </text>
               </g>
             )}
+
+            {/* Breaker AC */}
+            {breakerAc && (
+              <g transform="translate(600, 231)">
+                <rect x="0" y="0" width="80" height="25" rx="3" fill="hsl(220, 38%, 16%)" stroke="hsl(42, 100%, 50%)" strokeWidth="1" />
+                <text x="40" y="15" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
+                  BK AC {breakerAc.amps}A
+                </text>
+              </g>
+            )}
+
+            
 
             {showGrid && (
               <>
@@ -378,12 +391,12 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
                 <polygon points="598,166 590,170 598,174" fill="hsl(22, 70%, 60%, 0.77)" />
                 <line x1="590" y1="185" x2="850" y2="185" stroke="hsl(209, 77%, 73%)" strokeWidth="3" />
                 <polygon points="598,181 590,185 598,189" fill="hsl(209, 77%, 73%)" />
-                <text x="710" y="162" fontSize="9" fontFamily="JetBrains Mono" fill="hsl(0, 80%, 55%)" textAnchor="middle">RED ELECTRICA</text>
+                <text x="710" y="162" fontSize="15" fontFamily="JetBrains Mono" fill="hsl(0, 80%, 55%)" textAnchor="middle">RED ELECTRICA</text>
               </>
             )}
 
             {/* AC Distribution Panel */}
-            <g transform="translate(700, 165)">
+            <g transform="translate(700, 200)">
               <rect x="0" y="0" width="180" height="110" rx="4" fill="hsl(220, 38%, 16%)" stroke="hsl(200, 50%, 35%)" strokeWidth="1.5" />
               <text x="90" y="18" fontSize="10" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 90%)" textAnchor="middle" fontWeight="bold">TABLERO DE DIST. AC</text>
               <g transform="translate(15, 28)">
@@ -410,11 +423,17 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
                 <line x1="390" y1="280" x2="390" y2="385" stroke="hsl(0, 80%, 55%)" strokeWidth="2" />
                 <line x1="400" y1="280" x2="400" y2="395" stroke="hsl(220, 80%, 55%)" strokeWidth="2" />
                 <polygon points="386,288 390,280 394,288" fill="hsl(0, 80%, 55%)" />
-                <polygon points="396,288 400,280 404,288" fill="hsl(220, 80%, 55%)" />
+                <polygon points="396,288 400,280 404,288" fill="hsl(133, 80%, 55%)" />
+
+                <line x1="400" y1="395" x2="270" y2="395" stroke="hsl(220, 80%, 55%)" strokeWidth="2" />
+                <polygon points="278,391 270,395 278,399" fill="hsl(220, 80%, 55%)" />
+                <line x1="390" y1="385" x2="270" y2="385" stroke="hsl(0, 80%, 55%)" strokeWidth="2" />
+                <polygon points="278,381 270,385 278,389" fill="hsl(0, 80%, 55%)" />
+
                 {cableDcBattery && (
                   <g>
                     <rect x="300" y="400" width="82" height="14" rx="2" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(200, 50%, 35%)" strokeWidth="0.5" />
-                    <text x="340" y="410" fontSize="6.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
+                    <text x="340" y="410" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
                       DC BAT {cableDcBattery.section}
                     </text>
                   </g>
@@ -423,8 +442,8 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
                 {/* Breaker DC Baterías */}
                 {breakerDcBattery && (
                   <g transform="translate(340, 330)">
-                    <rect x="0" y="0" width="110" height="22" rx="3" fill="hsl(220, 38%, 16%)" stroke="hsl(42, 100%, 50%)" strokeWidth="1" />
-                    <text x="55" y="15" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
+                    <rect x="3" y="0" width="100" height="24" rx="3" fill="hsl(220, 38%, 16%)" stroke="hsl(42, 100%, 50%)" strokeWidth="1" />
+                    <text x="55" y="15" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
                       BK DC BAT {breakerDcBattery.amps}A
                     </text>
                   </g>
@@ -448,10 +467,7 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
                   </text>
                 </g>
 
-                <line x1="400" y1="395" x2="270" y2="395" stroke="hsl(220, 80%, 55%)" strokeWidth="2" />
-                <polygon points="278,391 270,395 278,399" fill="hsl(220, 80%, 55%)" />
-                <line x1="390" y1="385" x2="270" y2="385" stroke="hsl(0, 80%, 55%)" strokeWidth="2" />
-                <polygon points="278,381 270,385 278,389" fill="hsl(0, 80%, 55%)" />
+               
 
               </>
             )}
