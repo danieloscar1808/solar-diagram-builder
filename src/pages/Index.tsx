@@ -21,6 +21,8 @@ const DEFAULT_CONFIG: SolarConfig = {
   breakerDcPanelId: 'bk-dc-10',
   breakerDcBatteryId: 'bk-dc-10',
   breakerAcId: 'bk-ac-10',
+  breakerDcPanelChargerId: 'bk-dc-10',
+  breakerDcChargerBatteryId: 'bk-dc-10',
 };
 
 const Index = () => {

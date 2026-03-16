@@ -60,6 +60,8 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
       breakerDcPanelId: dcBreakers[0]?.id || '',
       breakerDcBatteryId: dcBreakers[0]?.id || '',
       breakerAcId: acBreakers[0]?.id || '',
+      breakerDcPanelChargerId: dcBreakers[0]?.id || '',
+      breakerDcChargerBatteryId: dcBreakers[0]?.id || '',
     });
   };
 
@@ -84,6 +86,8 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
     const bkDcPanelValid = newDcBreakers.some(b => b.id === config.breakerDcPanelId);
     const bkDcBatValid = newDcBreakers.some(b => b.id === config.breakerDcBatteryId);
     const bkAcValid = newAcBreakers.some(b => b.id === config.breakerAcId);
+    const bkDcPanelChargerValid = newDcBreakers.some(b => b.id === config.breakerDcPanelChargerId);
+    const bkDcChargerBatValid = newDcBreakers.some(b => b.id === config.breakerDcChargerBatteryId);
 
     onChange({
       ...config,
@@ -100,6 +104,8 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
       breakerDcPanelId: bkDcPanelValid ? config.breakerDcPanelId : (newDcBreakers[0]?.id || ''),
       breakerDcBatteryId: bkDcBatValid ? config.breakerDcBatteryId : (newDcBreakers[0]?.id || ''),
       breakerAcId: bkAcValid ? config.breakerAcId : (newAcBreakers[0]?.id || ''),
+      breakerDcPanelChargerId: bkDcPanelChargerValid ? config.breakerDcPanelChargerId : (newDcBreakers[0]?.id || ''),
+      breakerDcChargerBatteryId: bkDcChargerBatValid ? config.breakerDcChargerBatteryId : (newDcBreakers[0]?.id || ''),
     });
   };
 
@@ -272,8 +278,8 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
             )}
           </div>
 
-          {/* Breaker DC Baterías (off-grid y hybrid) */}
-          {showBatteries && (
+          {/* Breaker DC Baterías (off-grid y hybrid, sin cargador externo) */}
+          {showBatteries && !showCharger && (
             <div className="flex flex-col gap-1.5">
               <label className="text-xs text-muted-foreground">Breaker DC Baterías</label>
               {compatibleDcBreakers.length === 0 ? (
@@ -294,6 +300,52 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
                 </Select>
               )}
             </div>
+          )}
+
+          {/* Breakers para cargador externo */}
+          {showCharger && (
+            <>
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs text-muted-foreground">Breaker DC: Paneles → Cargador</label>
+                {compatibleDcBreakers.length === 0 ? (
+                  <div className="text-xs text-muted-foreground italic p-1">Sin breakers compatibles</div>
+                ) : (
+                  <Select value={config.breakerDcPanelChargerId} onValueChange={v => onChange({ ...config, breakerDcPanelChargerId: v })}>
+                    <SelectTrigger className="h-8 text-xs"><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      {compatibleDcBreakers.map(b => (
+                        <SelectItem key={b.id} value={b.id}>
+                          <span className="flex flex-col">
+                            <span>{b.label}</span>
+                            <span className="text-xs text-muted-foreground">{b.description} — SKU: {b.sku}</span>
+                          </span>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs text-muted-foreground">Breaker DC: Cargador/Regulador → Baterías</label>
+                {compatibleDcBreakers.length === 0 ? (
+                  <div className="text-xs text-muted-foreground italic p-1">Sin breakers compatibles</div>
+                ) : (
+                  <Select value={config.breakerDcChargerBatteryId} onValueChange={v => onChange({ ...config, breakerDcChargerBatteryId: v })}>
+                    <SelectTrigger className="h-8 text-xs"><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      {compatibleDcBreakers.map(b => (
+                        <SelectItem key={b.id} value={b.id}>
+                          <span className="flex flex-col">
+                            <span>{b.label}</span>
+                            <span className="text-xs text-muted-foreground">{b.description} — SKU: {b.sku}</span>
+                          </span>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              </div>
+            </>
           )}
 
           {/* Breaker AC */}
