@@ -193,11 +193,11 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
             {/* Inverter positioned lower when charger present */}
             <g transform="translate(350, 160)">
               <rect x="0" y="0" width="220" height="120" rx="6" fill="hsl(220, 42%, 14%)" stroke="hsl(200, 50%, 35%)" strokeWidth="2" />
-              <text x="110" y="22" fontSize="11" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 90%)" textAnchor="middle" fontWeight="bold">
+              <text x="110" y="22" fontSize="11" fontFamily="JetBrains Mono" fill={brandColor(inverter?.brand, 'hsl(210, 20%, 90%)')} textAnchor="middle" fontWeight="bold">
                 INVERSOR {systemLabel}
               </text>
-              <text x="110" y="38" fontSize="10" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
-                {inverter ? `${inverter.voltage}V / ${inverter.power}W` : ''}
+              <text x="110" y="38" fontSize="10" fontFamily="JetBrains Mono" fill={brandColor(inverter?.brand, 'hsl(42, 100%, 50%)')} textAnchor="middle">
+                {inverter ? `${inverter.voltage}V / ${inverter.power}W${inverter.brand !== 'Enertik' ? ' (Rec.)' : ''}` : ''}
               </text>
               <rect x="20" y="50" width="180" height="22" rx="3" fill="hsl(220, 30%, 20%)" stroke="hsl(215, 25%, 25%)" />
               <text x="110" y="65" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)" textAnchor="middle">SIN CARGADOR INTEGRADO</text>
