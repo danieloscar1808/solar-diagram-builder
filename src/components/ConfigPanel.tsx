@@ -60,6 +60,8 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
       breakerDcPanelId: dcBreakers[0]?.id || '',
       breakerDcBatteryId: dcBreakers[0]?.id || '',
       breakerAcId: acBreakers[0]?.id || '',
+      breakerDcPanelChargerId: dcBreakers[0]?.id || '',
+      breakerDcChargerBatteryId: dcBreakers[0]?.id || '',
     });
   };
 
