@@ -133,10 +133,10 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
           <SelectTrigger className="w-full h-12 text-sm"><SelectValue /></SelectTrigger>
           <SelectContent>
             {filteredInverters.map(i => (
-              <SelectItem key={i.id} value={i.id}>
+                <SelectItem key={i.id} value={i.id}>
                 <span className="flex flex-col">
-                  <span>{i.label}{i.hasCharger ? ' (Inv/Cargador)' : ''}</span>
-                  <span className="text-xs text-muted-foreground">{i.brand} — SKU: {i.sku}</span>
+                  <span className={i.brand !== 'Enertik' ? 'text-red-500' : ''}>{i.label}{i.hasCharger ? ' (Inv/Cargador)' : ''}{i.brand !== 'Enertik' ? ' ⚠ Rec.' : ''}</span>
+                  <span className={`text-xs ${i.brand !== 'Enertik' ? 'text-red-400' : 'text-muted-foreground'}`}>{i.brand} — SKU: {i.sku}</span>
                 </span>
               </SelectItem>
             ))}
