@@ -26,6 +26,10 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
   const showGrid = config.systemType !== 'off-grid';
   const showCharger = needsExternalCharger(inverter);
 
+  // Helper: returns red for non-Enertik brands, default color otherwise
+  const brandColor = (brand: string | undefined, defaultColor: string) =>
+    brand && brand !== 'Enertik' ? 'hsl(0, 80%, 60%)' : defaultColor;
+
   const systemLabel = config.systemType === 'off-grid' ? 'AISLADO (OFF-GRID)' : config.systemType === 'on-grid' ? 'CONECTADO A RED (ON-GRID)' : 'HIBRIDO';
   const titleText = `DIAGRAMA UNIFILAR — SISTEMA SOLAR ${systemLabel}`;
 
@@ -45,11 +49,11 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
         {/* Solar Panels */}
         <g transform="translate(300, 10)">
           <SolarPanelGroup panelCount={4} />
-          <text x="100" y="95" className="fill-black" fontSize="10" fontFamily="JetBrains Mono" textAnchor="middle">
+          <text x="100" y="95" fontSize="10" fontFamily="JetBrains Mono" textAnchor="middle" fill={brandColor(panel?.brand, 'hsl(210, 20%, 15%)')}>
             PANELES SOLARES
           </text>
-          <text x="100" y="108" className="fill-black" fontSize="9" fontFamily="JetBrains Mono" textAnchor="middle">
-            {panel ? `${panel.watts}W ${panel.brand}` : ''}
+          <text x="100" y="108" fontSize="9" fontFamily="JetBrains Mono" textAnchor="middle" fill={brandColor(panel?.brand, 'hsl(210, 20%, 15%)')}>
+            {panel ? `${panel.watts}W ${panel.brand}${panel.brand !== 'Enertik' ? ' (Recomendado)' : ''}` : ''}
           </text>
         </g>
 
@@ -105,11 +109,11 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
               </text>
               {charger && (
                 <>
-                  <text x="80" y="46" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
+              <text x="80" y="46" fontSize="8" fontFamily="JetBrains Mono" fill={brandColor(charger.brand, 'hsl(42, 100%, 50%)')} textAnchor="middle">
                     {charger.technology} {charger.maxAmps}A
                   </text>
-                  <text x="80" y="60" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(215, 15%, 55%)" textAnchor="middle">
-                    {charger.brand} — SKU: {charger.sku}
+                  <text x="80" y="60" fontSize="7" fontFamily="JetBrains Mono" fill={brandColor(charger.brand, 'hsl(215, 15%, 55%)')} textAnchor="middle">
+                    {charger.brand}{charger.brand !== 'Enertik' ? ' (Rec.)' : ''} — SKU: {charger.sku}
                   </text>
                 </>
               )}
@@ -150,8 +154,8 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
 
                 <g transform="translate(70, 350)">
                   <rect x="0" y="0" width="200" height="90" rx="4" fill="hsl(220, 38%, 16%)" stroke="hsl(200, 50%, 35%)" strokeWidth="1.5" />
-                  <text x="100" y="18" fontSize="10" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 90%)" textAnchor="middle" fontWeight="bold">BANCO DE BATERIAS</text>
-                  <text x="100" y="34" fontSize="9" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
+                  <text x="100" y="18" fontSize="10" fontFamily="JetBrains Mono" fill={brandColor(battery.brand, 'hsl(210, 20%, 90%)')} textAnchor="middle" fontWeight="bold">BANCO DE BATERIAS</text>
+                  <text x="100" y="34" fontSize="9" fontFamily="JetBrains Mono" fill={brandColor(battery.brand, 'hsl(42, 100%, 50%)')} textAnchor="middle">
                     {battery.voltage}V / {(battery.capacityWh / 1000).toFixed(1)} kWh
                   </text>
                   {Array.from({ length: 4 }).map((_, i) => (
@@ -160,8 +164,8 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
                       <rect x="6" y="-3" width="10" height="4" rx="1" fill="hsl(200, 50%, 35%)" />
                     </g>
                   ))}
-                  <text x="100" y="86" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(215, 15%, 55%)" textAnchor="middle">
-                    {battery.chemistry} — {battery.brand} — SKU: {battery.sku}
+                  <text x="100" y="86" fontSize="7" fontFamily="JetBrains Mono" fill={brandColor(battery.brand, 'hsl(215, 15%, 55%)')} textAnchor="middle">
+                    {battery.chemistry} — {battery.brand}{battery.brand !== 'Enertik' ? ' (Rec.)' : ''} — SKU: {battery.sku}
                   </text>
                 </g>
 
@@ -189,11 +193,11 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
             {/* Inverter positioned lower when charger present */}
             <g transform="translate(350, 160)">
               <rect x="0" y="0" width="220" height="120" rx="6" fill="hsl(220, 42%, 14%)" stroke="hsl(200, 50%, 35%)" strokeWidth="2" />
-              <text x="110" y="22" fontSize="11" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 90%)" textAnchor="middle" fontWeight="bold">
+              <text x="110" y="22" fontSize="11" fontFamily="JetBrains Mono" fill={brandColor(inverter?.brand, 'hsl(210, 20%, 90%)')} textAnchor="middle" fontWeight="bold">
                 INVERSOR {systemLabel}
               </text>
-              <text x="110" y="38" fontSize="10" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
-                {inverter ? `${inverter.voltage}V / ${inverter.power}W` : ''}
+              <text x="110" y="38" fontSize="10" fontFamily="JetBrains Mono" fill={brandColor(inverter?.brand, 'hsl(42, 100%, 50%)')} textAnchor="middle">
+                {inverter ? `${inverter.voltage}V / ${inverter.power}W${inverter.brand !== 'Enertik' ? ' (Rec.)' : ''}` : ''}
               </text>
               <rect x="20" y="50" width="180" height="22" rx="3" fill="hsl(220, 30%, 20%)" stroke="hsl(215, 25%, 25%)" />
               <text x="110" y="65" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)" textAnchor="middle">SIN CARGADOR INTEGRADO</text>
@@ -351,11 +355,11 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
             {/* Inverter */}
             <g transform="translate(350, 160)">
               <rect x="-20" y="0" width="260" height="120" rx="6" fill="hsl(220, 42%, 14%)" stroke="hsl(200, 50%, 35%)" strokeWidth="2" />
-              <text x="110" y="22" fontSize="11" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 90%)" textAnchor="middle" fontWeight="bold">
+              <text x="110" y="22" fontSize="11" fontFamily="JetBrains Mono" fill={brandColor(inverter?.brand, 'hsl(210, 20%, 90%)')} textAnchor="middle" fontWeight="bold">
                 {inverter?.hasCharger ? 'INVERSOR/CARGADOR' : 'INVERSOR'} {systemLabel}
               </text>
-              <text x="110" y="38" fontSize="10" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
-                {inverter ? `${inverter.voltage}V / ${inverter.power}W` : ''}
+              <text x="110" y="38" fontSize="10" fontFamily="JetBrains Mono" fill={brandColor(inverter?.brand, 'hsl(42, 100%, 50%)')} textAnchor="middle">
+                {inverter ? `${inverter.voltage}V / ${inverter.power}W${inverter.brand !== 'Enertik' ? ' (Rec.)' : ''}` : ''}
               </text>
               <rect x="20" y="50" width="180" height="22" rx="3" fill="hsl(220, 30%, 20%)" stroke="hsl(215, 25%, 25%)" />
               <text x="110" y="65" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)" textAnchor="middle">
@@ -454,8 +458,8 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
                 {/* Battery Bank */}
                 <g transform="translate(70, 350)">
                   <rect x="0" y="0" width="200" height="90" rx="4" fill="hsl(220, 38%, 16%)" stroke="hsl(200, 50%, 35%)" strokeWidth="1.5" />
-                  <text x="100" y="18" fontSize="10" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 90%)" textAnchor="middle" fontWeight="bold">BANCO DE BATERIAS</text>
-                  <text x="100" y="34" fontSize="9" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
+                  <text x="100" y="18" fontSize="10" fontFamily="JetBrains Mono" fill={brandColor(battery.brand, 'hsl(210, 20%, 90%)')} textAnchor="middle" fontWeight="bold">BANCO DE BATERIAS</text>
+                  <text x="100" y="34" fontSize="9" fontFamily="JetBrains Mono" fill={brandColor(battery.brand, 'hsl(42, 100%, 50%)')} textAnchor="middle">
                     {battery.voltage}V / {(battery.capacityWh / 1000).toFixed(1)} kWh
                   </text>
                   {Array.from({ length: 4 }).map((_, i) => (
@@ -464,8 +468,8 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
                       <rect x="6" y="-3" width="10" height="4" rx="1" fill="hsl(200, 50%, 35%)" />
                     </g>
                   ))}
-                  <text x="100" y="86" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(215, 15%, 55%)" textAnchor="middle">
-                    {battery.chemistry} — {battery.brand} — SKU: {battery.sku}
+                  <text x="100" y="86" fontSize="7" fontFamily="JetBrains Mono" fill={brandColor(battery.brand, 'hsl(215, 15%, 55%)')} textAnchor="middle">
+                    {battery.chemistry} — {battery.brand}{battery.brand !== 'Enertik' ? ' (Rec.)' : ''} — SKU: {battery.sku}
                   </text>
                 </g>
 
@@ -534,6 +538,14 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
             )}
           </>
         )}
+        {/* Legend */}
+        <g transform={`translate(10, ${svgHeight - 30})`}>
+          <rect x="0" y="0" width="320" height="22" rx="3" fill="hsl(220, 38%, 12%)" fillOpacity="0.9" stroke="hsl(215, 25%, 25%)" strokeWidth="0.5" />
+          <circle cx="12" cy="11" r="4" fill="hsl(42, 100%, 50%)" />
+          <text x="22" y="15" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">ENERTIK</text>
+          <circle cx="82" cy="11" r="4" fill="hsl(0, 80%, 60%)" />
+          <text x="92" y="15" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(0, 80%, 60%)">NO ENERTIK — DISPOSITIVO RECOMENDADO</text>
+        </g>
       </svg>
     </div>
   );
