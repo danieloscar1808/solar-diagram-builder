@@ -200,8 +200,8 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
                 {compatibleBatteries.map(b => (
                   <SelectItem key={b.id} value={b.id}>
                     <span className="flex flex-col">
-                      <span>{b.label}</span>
-                      <span className="text-xs text-muted-foreground">{b.brand} — {b.voltage}V {b.capacityWh}Wh — SKU: {b.sku}</span>
+                      <span className={b.brand !== 'Enertik' ? 'text-red-500' : ''}>{b.label}{b.brand !== 'Enertik' ? ' ⚠ Rec.' : ''}</span>
+                      <span className={`text-xs ${b.brand !== 'Enertik' ? 'text-red-400' : 'text-muted-foreground'}`}>{b.brand} — {b.voltage}V {b.capacityWh}Wh — SKU: {b.sku}</span>
                     </span>
                   </SelectItem>
                 ))}
