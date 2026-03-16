@@ -115,11 +115,21 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
               )}
             </g>
 
+            {/* Breaker DC Cargador-Baterías */}
+            {breakerDcChargerBattery && (
+              <g transform="translate(80, 155)">
+                <rect x="0" y="0" width="150" height="22" rx="3" fill="hsl(220, 38%, 16%)" stroke="hsl(42, 100%, 50%)" strokeWidth="1" />
+                <text x="75" y="15" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
+                  BK DC CARG→BAT {breakerDcChargerBattery.amps}A
+                </text>
+              </g>
+            )}
+
             {/* Lines from charger to batteries */}
             {cableDcChargerBattery && (
               <g>
-                <rect x="180" y="170" width="110" height="20" rx="3" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(160, 60%, 40%)" strokeWidth="0.5" />
-                <text x="235" y="182" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
+                <rect x="180" y="182" width="110" height="20" rx="3" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(160, 60%, 40%)" strokeWidth="0.5" />
+                <text x="235" y="194" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
                   DC REG→BAT {cableDcChargerBattery.section}
                 </text>
               </g>
