@@ -133,10 +133,10 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
           <SelectTrigger className="w-full h-12 text-sm"><SelectValue /></SelectTrigger>
           <SelectContent>
             {filteredInverters.map(i => (
-                <SelectItem key={i.id} value={i.id}>
+              <SelectItem key={i.id} value={i.id}>
                 <span className="flex flex-col">
-                  <span className={i.brand !== 'Enertik' ? 'text-red-500' : ''}>{i.label}{i.hasCharger ? ' (Inv/Cargador)' : ''}{i.brand !== 'Enertik' ? ' ⚠ Rec.' : ''}</span>
-                  <span className={`text-xs ${i.brand !== 'Enertik' ? 'text-red-400' : 'text-muted-foreground'}`}>{i.brand} — SKU: {i.sku}</span>
+                  <span>{i.label}{i.hasCharger ? ' (Inv/Cargador)' : ''}</span>
+                  <span className="text-xs text-muted-foreground">{i.brand} — SKU: {i.sku}</span>
                 </span>
               </SelectItem>
             ))}
@@ -200,8 +200,8 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
                 {compatibleBatteries.map(b => (
                   <SelectItem key={b.id} value={b.id}>
                     <span className="flex flex-col">
-                      <span className={b.brand !== 'Enertik' ? 'text-red-500' : ''}>{b.label}{b.brand !== 'Enertik' ? ' ⚠ Rec.' : ''}</span>
-                      <span className={`text-xs ${b.brand !== 'Enertik' ? 'text-red-400' : 'text-muted-foreground'}`}>{b.brand} — {b.voltage}V {b.capacityWh}Wh — SKU: {b.sku}</span>
+                      <span>{b.label}</span>
+                      <span className="text-xs text-muted-foreground">{b.brand} — {b.voltage}V {b.capacityWh}Wh — SKU: {b.sku}</span>
                     </span>
                   </SelectItem>
                 ))}
@@ -233,8 +233,8 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
               {compatiblePanels.map(p => (
                 <SelectItem key={p.id} value={p.id}>
                   <span className="flex flex-col">
-                    <span className={p.brand !== 'Enertik' ? 'text-red-500' : ''}>{p.label}{p.brand !== 'Enertik' ? ' ⚠ Rec.' : ''}</span>
-                    <span className={`text-xs ${p.brand !== 'Enertik' ? 'text-red-400' : 'text-muted-foreground'}`}>{p.brand} — {p.watts}W {p.technology} — SKU: {p.sku}</span>
+                    <span>{p.label}</span>
+                    <span className="text-xs text-muted-foreground">{p.brand} — {p.watts}W {p.technology} — SKU: {p.sku}</span>
                   </span>
                 </SelectItem>
               ))}
