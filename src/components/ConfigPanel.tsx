@@ -86,6 +86,8 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
     const bkDcPanelValid = newDcBreakers.some(b => b.id === config.breakerDcPanelId);
     const bkDcBatValid = newDcBreakers.some(b => b.id === config.breakerDcBatteryId);
     const bkAcValid = newAcBreakers.some(b => b.id === config.breakerAcId);
+    const bkDcPanelChargerValid = newDcBreakers.some(b => b.id === config.breakerDcPanelChargerId);
+    const bkDcChargerBatValid = newDcBreakers.some(b => b.id === config.breakerDcChargerBatteryId);
 
     onChange({
       ...config,
@@ -102,6 +104,8 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
       breakerDcPanelId: bkDcPanelValid ? config.breakerDcPanelId : (newDcBreakers[0]?.id || ''),
       breakerDcBatteryId: bkDcBatValid ? config.breakerDcBatteryId : (newDcBreakers[0]?.id || ''),
       breakerAcId: bkAcValid ? config.breakerAcId : (newAcBreakers[0]?.id || ''),
+      breakerDcPanelChargerId: bkDcPanelChargerValid ? config.breakerDcPanelChargerId : (newDcBreakers[0]?.id || ''),
+      breakerDcChargerBatteryId: bkDcChargerBatValid ? config.breakerDcChargerBatteryId : (newDcBreakers[0]?.id || ''),
     });
   };
 
