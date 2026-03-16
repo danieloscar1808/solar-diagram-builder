@@ -19,6 +19,8 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
   const breakerDcPanel = BREAKER_OPTIONS.find(b => b.id === config.breakerDcPanelId);
   const breakerDcBattery = BREAKER_OPTIONS.find(b => b.id === config.breakerDcBatteryId);
   const breakerAc = BREAKER_OPTIONS.find(b => b.id === config.breakerAcId);
+  const breakerDcPanelCharger = BREAKER_OPTIONS.find(b => b.id === config.breakerDcPanelChargerId);
+  const breakerDcChargerBattery = BREAKER_OPTIONS.find(b => b.id === config.breakerDcChargerBatteryId);
 
   const showBatteries = config.systemType !== 'on-grid';
   const showGrid = config.systemType !== 'off-grid';
@@ -62,11 +64,20 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
         
 
         {/* Breaker DC Paneles - between panels and next component */}
-        {breakerDcPanel && (
+        {!showCharger && breakerDcPanel && (
           <g transform="translate(90, 170)">
             <rect x="9" y="0" width="110" height="24" rx="3" fill="hsl(220, 38%, 16%)" stroke="hsl(42, 100%, 50%)" strokeWidth="1" />
             <text x="65" y="15" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
               {config.systemType === 'on-grid' ? 'BREAKER DC' : 'BREAKER DC PANELES'} {breakerDcPanel.amps}A
+            </text>
+          </g>
+        )}
+        {/* Breaker DC Paneles-Cargador (when external charger) */}
+        {showCharger && breakerDcPanelCharger && (
+          <g transform="translate(250, 28)">
+            <rect x="0" y="0" width="140" height="22" rx="3" fill="hsl(220, 38%, 16%)" stroke="hsl(42, 100%, 50%)" strokeWidth="1" />
+            <text x="70" y="15" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
+              BK DC PAN→CARG {breakerDcPanelCharger.amps}A
             </text>
           </g>
         )}
@@ -104,11 +115,21 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
               )}
             </g>
 
+            {/* Breaker DC Cargador-Baterías */}
+            {breakerDcChargerBattery && (
+              <g transform="translate(80, 155)">
+                <rect x="0" y="0" width="150" height="22" rx="3" fill="hsl(220, 38%, 16%)" stroke="hsl(42, 100%, 50%)" strokeWidth="1" />
+                <text x="75" y="15" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
+                  BK DC CARG→BAT {breakerDcChargerBattery.amps}A
+                </text>
+              </g>
+            )}
+
             {/* Lines from charger to batteries */}
             {cableDcChargerBattery && (
               <g>
-                <rect x="180" y="170" width="110" height="20" rx="3" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(160, 60%, 40%)" strokeWidth="0.5" />
-                <text x="235" y="182" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
+                <rect x="180" y="182" width="110" height="20" rx="3" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(160, 60%, 40%)" strokeWidth="0.5" />
+                <text x="235" y="194" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
                   DC REG→BAT {cableDcChargerBattery.section}
                 </text>
               </g>
