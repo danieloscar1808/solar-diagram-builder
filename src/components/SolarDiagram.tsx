@@ -109,11 +109,11 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
               </text>
               {charger && (
                 <>
-                  <text x="80" y="46" fontSize="8" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
+              <text x="80" y="46" fontSize="8" fontFamily="JetBrains Mono" fill={brandColor(charger.brand, 'hsl(42, 100%, 50%)')} textAnchor="middle">
                     {charger.technology} {charger.maxAmps}A
                   </text>
-                  <text x="80" y="60" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(215, 15%, 55%)" textAnchor="middle">
-                    {charger.brand} — SKU: {charger.sku}
+                  <text x="80" y="60" fontSize="7" fontFamily="JetBrains Mono" fill={brandColor(charger.brand, 'hsl(215, 15%, 55%)')} textAnchor="middle">
+                    {charger.brand}{charger.brand !== 'Enertik' ? ' (Rec.)' : ''} — SKU: {charger.sku}
                   </text>
                 </>
               )}
