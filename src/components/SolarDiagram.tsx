@@ -19,6 +19,8 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
   const breakerDcPanel = BREAKER_OPTIONS.find(b => b.id === config.breakerDcPanelId);
   const breakerDcBattery = BREAKER_OPTIONS.find(b => b.id === config.breakerDcBatteryId);
   const breakerAc = BREAKER_OPTIONS.find(b => b.id === config.breakerAcId);
+  const breakerDcPanelCharger = BREAKER_OPTIONS.find(b => b.id === config.breakerDcPanelChargerId);
+  const breakerDcChargerBattery = BREAKER_OPTIONS.find(b => b.id === config.breakerDcChargerBatteryId);
 
   const showBatteries = config.systemType !== 'on-grid';
   const showGrid = config.systemType !== 'off-grid';
