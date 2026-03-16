@@ -26,6 +26,10 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
   const showGrid = config.systemType !== 'off-grid';
   const showCharger = needsExternalCharger(inverter);
 
+  // Helper: returns red for non-Enertik brands, default color otherwise
+  const brandColor = (brand: string | undefined, defaultColor: string) =>
+    brand && brand !== 'Enertik' ? 'hsl(0, 80%, 60%)' : defaultColor;
+
   const systemLabel = config.systemType === 'off-grid' ? 'AISLADO (OFF-GRID)' : config.systemType === 'on-grid' ? 'CONECTADO A RED (ON-GRID)' : 'HIBRIDO';
   const titleText = `DIAGRAMA UNIFILAR — SISTEMA SOLAR ${systemLabel}`;
 
