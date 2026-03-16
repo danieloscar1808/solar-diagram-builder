@@ -64,11 +64,20 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
 
 
         {/* Breaker DC Paneles - between panels and next component */}
-        {breakerDcPanel && (
+        {!showCharger && breakerDcPanel && (
           <g transform="translate(90, 170)">
             <rect x="0" y="0" width="130" height="22" rx="3" fill="hsl(220, 38%, 16%)" stroke="hsl(42, 100%, 50%)" strokeWidth="1" />
             <text x="65" y="15" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
               {config.systemType === 'on-grid' ? 'BREAKER DC' : 'BREAKER DC PANELES'} {breakerDcPanel.amps}A
+            </text>
+          </g>
+        )}
+        {/* Breaker DC Paneles-Cargador (when external charger) */}
+        {showCharger && breakerDcPanelCharger && (
+          <g transform="translate(250, 28)">
+            <rect x="0" y="0" width="140" height="22" rx="3" fill="hsl(220, 38%, 16%)" stroke="hsl(42, 100%, 50%)" strokeWidth="1" />
+            <text x="70" y="15" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
+              BK DC PAN→CARG {breakerDcPanelCharger.amps}A
             </text>
           </g>
         )}
