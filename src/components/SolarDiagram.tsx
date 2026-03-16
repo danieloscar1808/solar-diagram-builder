@@ -538,6 +538,14 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
             )}
           </>
         )}
+        {/* Legend */}
+        <g transform={`translate(10, ${svgHeight - 30})`}>
+          <rect x="0" y="0" width="320" height="22" rx="3" fill="hsl(220, 38%, 12%)" fillOpacity="0.9" stroke="hsl(215, 25%, 25%)" strokeWidth="0.5" />
+          <circle cx="12" cy="11" r="4" fill="hsl(42, 100%, 50%)" />
+          <text x="22" y="15" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 75%)">ENERTIK</text>
+          <circle cx="82" cy="11" r="4" fill="hsl(0, 80%, 60%)" />
+          <text x="92" y="15" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(0, 80%, 60%)">NO ENERTIK — DISPOSITIVO RECOMENDADO</text>
+        </g>
       </svg>
     </div>
   );

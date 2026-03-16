@@ -233,8 +233,8 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
               {compatiblePanels.map(p => (
                 <SelectItem key={p.id} value={p.id}>
                   <span className="flex flex-col">
-                    <span>{p.label}</span>
-                    <span className="text-xs text-muted-foreground">{p.brand} — {p.watts}W {p.technology} — SKU: {p.sku}</span>
+                    <span className={p.brand !== 'Enertik' ? 'text-red-500' : ''}>{p.label}{p.brand !== 'Enertik' ? ' ⚠ Rec.' : ''}</span>
+                    <span className={`text-xs ${p.brand !== 'Enertik' ? 'text-red-400' : 'text-muted-foreground'}`}>{p.brand} — {p.watts}W {p.technology} — SKU: {p.sku}</span>
                   </span>
                 </SelectItem>
               ))}
