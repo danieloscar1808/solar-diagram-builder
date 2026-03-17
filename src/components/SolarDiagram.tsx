@@ -494,21 +494,21 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
                 <line x1="390" y1="385" x2="270" y2="385" stroke="hsl(0, 80%, 55%)" strokeWidth="2" />
                 <polygon points="278,381 270,385 278,389" fill="hsl(0, 80%, 55%)" />
 
-                {cableDcBattery && (
+                {effCableDcBatterySection && (
                   <g>
                     <rect x="300" y="400" width="82" height="14" rx="2" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(200, 50%, 35%)" strokeWidth="0.5" />
-                    <text x="340" y="410" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
-                      DC BAT {cableDcBattery.section}
+                    <text x="340" y="410" fontSize="7.5" fontFamily="JetBrains Mono" fill={cableDcBatColor} textAnchor="middle">
+                      DC BAT {effCableDcBatterySection}{!cableDcBattery ? ' *' : ''}
                     </text>
                   </g>
                 )}
 
                 {/* Breaker DC Baterías */}
-                {breakerDcBattery && (
+                {effBreakerDcBatteryAmps && (
                   <g transform="translate(340, 330)">
-                    <rect x="3" y="0" width="100" height="24" rx="3" fill="hsl(220, 38%, 16%)" stroke="hsl(42, 100%, 50%)" strokeWidth="1" />
-                    <text x="55" y="15" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
-                      BK DC BAT {breakerDcBattery.amps}A
+                    <rect x="3" y="0" width="100" height="24" rx="3" fill="hsl(220, 38%, 16%)" stroke={bkDcBatColor} strokeWidth="1" />
+                    <text x="55" y="15" fontSize="7.5" fontFamily="JetBrains Mono" fill={bkDcBatColor} textAnchor="middle">
+                      BK DC BAT {effBreakerDcBatteryAmps}A{!breakerDcBattery ? ' *' : ''}
                     </text>
                   </g>
                 )}
