@@ -1,5 +1,5 @@
 import { SolarConfig, INVERTER_OPTIONS, BATTERY_OPTIONS, PANEL_OPTIONS, CABLE_OPTIONS, CHARGER_OPTIONS, BREAKER_OPTIONS } from '@/types/solar';
-import { needsExternalCharger } from '@/lib/compatibility';
+import { needsExternalCharger, getCompatibleBreakers, getCompatibleCables, getRecommendedBreaker, getRecommendedCable } from '@/lib/compatibility';
 
 interface SolarDiagramProps {
   config: SolarConfig;
