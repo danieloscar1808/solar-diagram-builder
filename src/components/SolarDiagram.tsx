@@ -583,11 +583,11 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
             strokeWidth="2"
             strokeDasharray="6 6"
             />
-            {cableTierra && (
+            {effCableTierraSection && (
               <g>
-                <rect x="510" y="410" width="80" height="14" rx="2" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(50, 90%, 55%)" strokeWidth="0.5" />
-                <text x="550" y="420" fontSize="6.5" fontFamily="JetBrains Mono" fill="hsl(50, 90%, 55%)" textAnchor="middle">
-                  TIERRA {cableTierra.section}
+                <rect x="510" y="410" width="80" height="14" rx="2" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke={cableTierraColor} strokeWidth="0.5" />
+                <text x="550" y="420" fontSize="6.5" fontFamily="JetBrains Mono" fill={cableTierraColor} textAnchor="middle">
+                  TIERRA {effCableTierraSection}{!cableTierra ? ' *' : ''}
                 </text>
               </g>
             )}
