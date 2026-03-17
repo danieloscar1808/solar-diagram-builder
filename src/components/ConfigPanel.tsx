@@ -35,6 +35,12 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
   const compatibleDcBreakers = useMemo(() => getCompatibleBreakers(selectedInverter, 'dc'), [selectedInverter]);
   const compatibleAcBreakers = useMemo(() => getCompatibleBreakers(selectedInverter, 'ac'), [selectedInverter]);
 
+  const recommendedDcBreaker = useMemo(() => getRecommendedBreaker(selectedInverter, 'dc'), [selectedInverter]);
+  const recommendedAcBreaker = useMemo(() => getRecommendedBreaker(selectedInverter, 'ac'), [selectedInverter]);
+  const recommendedDcCable = useMemo(() => getRecommendedCable(selectedInverter, 'dc'), [selectedInverter]);
+  const recommendedAcCable = useMemo(() => getRecommendedCable(selectedInverter, 'ac'), [selectedInverter]);
+  const recommendedTierraCable = useMemo(() => getRecommendedCable(selectedInverter, 'tierra'), [selectedInverter]);
+
   const handleSystemTypeChange = (value: SystemType) => {
     const firstInverter = INVERTER_OPTIONS.find(i => i.type === value);
     const inv = firstInverter;
