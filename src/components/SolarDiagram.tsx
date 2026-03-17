@@ -107,30 +107,30 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
         
 
         {/* Breaker DC Paneles - between panels and next component */}
-        {!showCharger && breakerDcPanel && (
+        {!showCharger && effBreakerDcPanelAmps && (
           <g transform="translate(90, 170)">
-            <rect x="9" y="0" width="110" height="24" rx="3" fill="hsl(220, 38%, 16%)" stroke="hsl(42, 100%, 50%)" strokeWidth="1" />
-            <text x="65" y="15" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
-              {config.systemType === 'on-grid' ? 'BREAKER DC' : 'BREAKER DC PANELES'} {breakerDcPanel.amps}A
+            <rect x="9" y="0" width="110" height="24" rx="3" fill="hsl(220, 38%, 16%)" stroke={bkDcPanelColor} strokeWidth="1" />
+            <text x="65" y="15" fontSize="7.5" fontFamily="JetBrains Mono" fill={bkDcPanelColor} textAnchor="middle">
+              {config.systemType === 'on-grid' ? 'BREAKER DC' : 'BREAKER DC PANELES'} {effBreakerDcPanelAmps}A{!breakerDcPanel ? ' *' : ''}
             </text>
           </g>
         )}
         {/* Breaker DC Paneles-Cargador (when external charger) */}
-        {showCharger && breakerDcPanelCharger && (
+        {showCharger && effBreakerDcPanelChargerAmps && (
           <g transform="translate(250, 28)">
-            <rect x="0" y="0" width="140" height="22" rx="3" fill="hsl(220, 38%, 16%)" stroke="hsl(42, 100%, 50%)" strokeWidth="1" />
-            <text x="70" y="15" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
-              BK DC PAN→CARG {breakerDcPanelCharger.amps}A
+            <rect x="0" y="0" width="140" height="22" rx="3" fill="hsl(220, 38%, 16%)" stroke={bkDcPanelChargerColor} strokeWidth="1" />
+            <text x="70" y="15" fontSize="7" fontFamily="JetBrains Mono" fill={bkDcPanelChargerColor} textAnchor="middle">
+              BK DC PAN→CARG {effBreakerDcPanelChargerAmps}A{!breakerDcPanelCharger ? ' *' : ''}
             </text>
           </g>
         )}
 
         {/* Cable label: Panel → next */}
-        {(showCharger ? cableDcPanelCharger : cableDcPanel) && (
+        {(showCharger ? (effCableDcPanelChargerSection) : (effCableDcPanelSection)) && (
           <g>
             <rect x="250" y="70" width="90" height="15" rx="3" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(200, 50%, 35%)" strokeWidth="0.5" />
-            <text x="295" y="80" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
-              DC PANELES {(showCharger ? cableDcPanelCharger : cableDcPanel)?.section}
+            <text x="295" y="80" fontSize="7.5" fontFamily="JetBrains Mono" fill={showCharger ? cableDcPanelChargerColor : cableDcPanelColor} textAnchor="middle">
+              DC PANELES {showCharger ? effCableDcPanelChargerSection : effCableDcPanelSection}{(showCharger ? !cableDcPanelCharger : !cableDcPanel) ? ' *' : ''}
             </text>
           </g>
         )}
