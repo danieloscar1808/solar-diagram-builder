@@ -26,6 +26,49 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
   const showGrid = config.systemType !== 'off-grid';
   const showCharger = needsExternalCharger(inverter);
 
+  // Check if items are from Enertik catalog or need recommendations
+  const dcBreakersAvailable = getCompatibleBreakers(inverter, 'dc');
+  const acBreakersAvailable = getCompatibleBreakers(inverter, 'ac');
+  const dcCablesAvailable = getCompatibleCables(inverter, 'dc');
+  const acCablesAvailable = getCompatibleCables(inverter, 'ac');
+  const tierraCablesAvailable = getCompatibleCables(inverter, 'tierra');
+
+  const recDcBreaker = dcBreakersAvailable.length === 0 ? getRecommendedBreaker(inverter, 'dc') : null;
+  const recAcBreaker = acBreakersAvailable.length === 0 ? getRecommendedBreaker(inverter, 'ac') : null;
+  const recDcCable = dcCablesAvailable.length === 0 ? getRecommendedCable(inverter, 'dc') : null;
+  const recAcCable = acCablesAvailable.length === 0 ? getRecommendedCable(inverter, 'ac') : null;
+  const recTierraCable = tierraCablesAvailable.length === 0 ? getRecommendedCable(inverter, 'tierra') : null;
+
+  // Effective display values for breakers
+  const effBreakerDcPanelAmps = breakerDcPanel?.amps ?? recDcBreaker?.amps;
+  const effBreakerDcBatteryAmps = breakerDcBattery?.amps ?? recDcBreaker?.amps;
+  const effBreakerAcAmps = breakerAc?.amps ?? recAcBreaker?.amps;
+  const effBreakerDcPanelChargerAmps = breakerDcPanelCharger?.amps ?? recDcBreaker?.amps;
+  const effBreakerDcChargerBatteryAmps = breakerDcChargerBattery?.amps ?? recDcBreaker?.amps;
+
+  // Effective display values for cables
+  const effCableDcPanelSection = cableDcPanel?.section ?? recDcCable?.section;
+  const effCableDcBatterySection = cableDcBattery?.section ?? recDcCable?.section;
+  const effCableAcSection = cableAc?.section ?? recAcCable?.section;
+  const effCableTierraSection = cableTierra?.section ?? recTierraCable?.section;
+  const effCableDcPanelChargerSection = cableDcPanelCharger?.section ?? recDcCable?.section;
+  const effCableDcChargerBatterySection = cableDcChargerBattery?.section ?? recDcCable?.section;
+
+  // Colors: red for recommended (not in Enertik), gold for available
+  const RED = "hsl(0, 80%, 55%)";
+  const GOLD = "hsl(42, 100%, 50%)";
+  const bkDcPanelColor = breakerDcPanel ? GOLD : RED;
+  const bkDcBatColor = breakerDcBattery ? GOLD : RED;
+  const bkAcColor = breakerAc ? GOLD : RED;
+  const bkDcPanelChargerColor = breakerDcPanelCharger ? GOLD : RED;
+  const bkDcChargerBatColor = breakerDcChargerBattery ? GOLD : RED;
+  const cableDcPanelColor = cableDcPanel ? GOLD : RED;
+  const cableDcBatColor = cableDcBattery ? GOLD : RED;
+  const cableAcColor = cableAc ? GOLD : RED;
+  const cableTierraColor = cableTierra ? "hsl(50, 90%, 55%)" : RED;
+  const cableDcPanelChargerColor = cableDcPanelCharger ? GOLD : RED;
+  const cableDcChargerBatColor = cableDcChargerBattery ? GOLD : RED;
+
   const systemLabel = config.systemType === 'off-grid' ? 'AISLADO (OFF-GRID)' : config.systemType === 'on-grid' ? 'CONECTADO A RED (ON-GRID)' : 'HIBRIDO';
   const titleText = `DIAGRAMA UNIFILAR — SISTEMA SOLAR ${systemLabel}`;
 
