@@ -372,7 +372,10 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
               {config.systemType === 'hybrid' ? 'Breaker AC Salida' : 'Breaker AC'}
             </label>
             {compatibleAcBreakers.length === 0 ? (
-              <div className="text-xs text-muted-foreground italic p-1">Sin breakers compatibles</div>
+              <div className="flex items-center gap-2 text-xs text-destructive font-semibold p-2 bg-destructive/10 rounded border border-destructive/30">
+                <AlertTriangle className="w-3 h-3" />
+                {recommendedAcBreaker ? `${recommendedAcBreaker.label} — No disponible en Enertik` : 'Sin breakers compatibles'}
+              </div>
             ) : (
               <Select value={config.breakerAcId} onValueChange={v => onChange({ ...config, breakerAcId: v })}>
                 <SelectTrigger className="h-8 text-xs"><SelectValue /></SelectTrigger>
