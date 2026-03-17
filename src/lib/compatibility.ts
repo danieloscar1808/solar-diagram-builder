@@ -78,11 +78,13 @@ export function getCompatibleBreakers(inverter: InverterOption | undefined, type
 
   if (type === 'dc') {
     const currentDc = inverter.voltage > 0 ? inverter.power / inverter.voltage : 0;
-    // Breaker debe soportar al menos la corriente nominal
-    return breakers.filter(b => b.amps >= currentDc * 0.8 && b.amps <= currentDc * 2);
+    // Para sistemas de alta potencia, permitir breakers desde el 30% de la corriente nominal
+    // ya que los sub-circuitos (paneles, cargador) manejan fracciones de la corriente total
+    const minAmps = Math.max(10, currentDc * 0.3);
+    return breakers.filter(b => b.amps >= minAmps * 0.5 && b.amps <= currentDc * 2.5);
   }
   
   // AC
   const currentAc = inverter.power / 220;
-  return breakers.filter(b => b.amps >= currentAc * 0.8 && b.amps <= currentAc * 2);
+  return breakers.filter(b => b.amps >= currentAc * 0.6 && b.amps <= currentAc * 2.5);
 }
