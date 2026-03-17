@@ -1,5 +1,5 @@
 import { SolarConfig, SystemType, INVERTER_OPTIONS, ACCESSORIES } from '@/types/solar';
-import { getCompatibleBatteries, getCompatiblePanels, getCompatibleCables, getCompatibleChargers, getCompatibleBreakers, needsExternalCharger } from '@/lib/compatibility';
+import { getCompatibleBatteries, getCompatiblePanels, getCompatibleCables, getCompatibleChargers, getCompatibleBreakers, needsExternalCharger, getRecommendedBreaker, getRecommendedCable } from '@/lib/compatibility';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { ChevronDown, ChevronRight, AlertTriangle, Cable, Shield, Zap } from 'lucide-react';
