@@ -291,8 +291,11 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
           {showBatteries && !showCharger && (
             <div className="flex flex-col gap-1.5">
               <label className="text-xs text-muted-foreground">Breaker DC Baterías</label>
-              {compatibleDcBreakers.length === 0 ? (
-                <div className="text-xs text-muted-foreground italic p-1">Sin breakers compatibles</div>
+            {compatibleDcBreakers.length === 0 ? (
+              <div className="flex items-center gap-2 text-xs text-destructive font-semibold p-2 bg-destructive/10 rounded border border-destructive/30">
+                <AlertTriangle className="w-3 h-3" />
+                {recommendedDcBreaker ? `${recommendedDcBreaker.label} — No disponible en Enertik` : 'Sin breakers compatibles'}
+              </div>
               ) : (
                 <Select value={config.breakerDcBatteryId} onValueChange={v => onChange({ ...config, breakerDcBatteryId: v })}>
                   <SelectTrigger className="h-8 text-xs"><SelectValue /></SelectTrigger>
