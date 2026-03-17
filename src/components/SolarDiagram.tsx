@@ -393,11 +393,11 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
             <line x1="240" y1="238" x2="328" y2="238" stroke="hsl(220, 80%, 55%)" strokeWidth="2" />
             <polygon points="320,234 328,238 320,242" fill="hsl(220, 80%, 55%)" />
             
-            {cableDcPanel && (
+            {effCableDcPanelSection && (
               <g>
                 <rect x="247" y="260" width="72" height="14" rx="2" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(200, 50%, 35%)" strokeWidth="0.5" />
-                <text x="283" y="270" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
-                  DC {cableDcPanel.section}
+                <text x="283" y="270" fontSize="7.5" fontFamily="JetBrains Mono" fill={cableDcPanelColor} textAnchor="middle">
+                  DC {effCableDcPanelSection}{!cableDcPanel ? ' *' : ''}
                 </text>
               </g>
             )}
