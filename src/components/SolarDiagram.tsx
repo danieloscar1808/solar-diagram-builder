@@ -182,11 +182,11 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
             {showBatteries && battery && (
               <>
                 {/* Breaker DC Baterías */}
-                 {breakerDcBattery && (
+                 {effBreakerDcBatteryAmps && (
                   <g transform="translate(250, 410)">
-                    <rect x="0" y="0" width="130" height="22" rx="3" fill="hsl(220, 38%, 16%)" stroke="hsl(42, 100%, 50%)" strokeWidth="1" />
-                    <text x="65" y="15" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
-                      BREAKER DC BAT {breakerDcBattery.amps}A
+                    <rect x="0" y="0" width="130" height="22" rx="3" fill="hsl(220, 38%, 16%)" stroke={bkDcBatColor} strokeWidth="1" />
+                    <text x="65" y="15" fontSize="7.5" fontFamily="JetBrains Mono" fill={bkDcBatColor} textAnchor="middle">
+                      BREAKER DC BAT {effBreakerDcBatteryAmps}A{!breakerDcBattery ? ' *' : ''}
                     </text>
                   </g>
                 )}
@@ -221,11 +221,11 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
                 <line x1="150" y1="218" x2="150" y2="350" stroke="hsl(0, 80%, 55%)" strokeWidth="2" />
                 <line x1="165" y1="218" x2="165" y2="350" stroke="hsl(220, 80%, 55%)" strokeWidth="2" />
                 
-                {cableDcBattery && (
+                {effCableDcBatterySection && (
                   <g>
                     <rect x="300" y="400" width="72" height="14" rx="2" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(200, 50%, 35%)" strokeWidth="0.5" />
-                    <text x="336" y="409" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
-                      DC BAT {cableDcBattery.section}
+                    <text x="336" y="409" fontSize="7.5" fontFamily="JetBrains Mono" fill={cableDcBatColor} textAnchor="middle">
+                      DC BAT {effCableDcBatterySection}{!cableDcBattery ? ' *' : ''}
                     </text>
                   </g>
                 )}
