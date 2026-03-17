@@ -1,5 +1,5 @@
 import { SolarConfig, INVERTER_OPTIONS, BATTERY_OPTIONS, PANEL_OPTIONS, CABLE_OPTIONS, CHARGER_OPTIONS, BREAKER_OPTIONS } from '@/types/solar';
-import { needsExternalCharger } from '@/lib/compatibility';
+import { needsExternalCharger, getCompatibleBreakers, getCompatibleCables, getRecommendedBreaker, getRecommendedCable } from '@/lib/compatibility';
 
 interface SolarDiagramProps {
   config: SolarConfig;
@@ -25,6 +25,49 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
   const showBatteries = config.systemType !== 'on-grid';
   const showGrid = config.systemType !== 'off-grid';
   const showCharger = needsExternalCharger(inverter);
+
+  // Check if items are from Enertik catalog or need recommendations
+  const dcBreakersAvailable = getCompatibleBreakers(inverter, 'dc');
+  const acBreakersAvailable = getCompatibleBreakers(inverter, 'ac');
+  const dcCablesAvailable = getCompatibleCables(inverter, 'dc');
+  const acCablesAvailable = getCompatibleCables(inverter, 'ac');
+  const tierraCablesAvailable = getCompatibleCables(inverter, 'tierra');
+
+  const recDcBreaker = dcBreakersAvailable.length === 0 ? getRecommendedBreaker(inverter, 'dc') : null;
+  const recAcBreaker = acBreakersAvailable.length === 0 ? getRecommendedBreaker(inverter, 'ac') : null;
+  const recDcCable = dcCablesAvailable.length === 0 ? getRecommendedCable(inverter, 'dc') : null;
+  const recAcCable = acCablesAvailable.length === 0 ? getRecommendedCable(inverter, 'ac') : null;
+  const recTierraCable = tierraCablesAvailable.length === 0 ? getRecommendedCable(inverter, 'tierra') : null;
+
+  // Effective display values for breakers
+  const effBreakerDcPanelAmps = breakerDcPanel?.amps ?? recDcBreaker?.amps;
+  const effBreakerDcBatteryAmps = breakerDcBattery?.amps ?? recDcBreaker?.amps;
+  const effBreakerAcAmps = breakerAc?.amps ?? recAcBreaker?.amps;
+  const effBreakerDcPanelChargerAmps = breakerDcPanelCharger?.amps ?? recDcBreaker?.amps;
+  const effBreakerDcChargerBatteryAmps = breakerDcChargerBattery?.amps ?? recDcBreaker?.amps;
+
+  // Effective display values for cables
+  const effCableDcPanelSection = cableDcPanel?.section ?? recDcCable?.section;
+  const effCableDcBatterySection = cableDcBattery?.section ?? recDcCable?.section;
+  const effCableAcSection = cableAc?.section ?? recAcCable?.section;
+  const effCableTierraSection = cableTierra?.section ?? recTierraCable?.section;
+  const effCableDcPanelChargerSection = cableDcPanelCharger?.section ?? recDcCable?.section;
+  const effCableDcChargerBatterySection = cableDcChargerBattery?.section ?? recDcCable?.section;
+
+  // Colors: red for recommended (not in Enertik), gold for available
+  const RED = "hsl(0, 80%, 55%)";
+  const GOLD = "hsl(42, 100%, 50%)";
+  const bkDcPanelColor = breakerDcPanel ? GOLD : RED;
+  const bkDcBatColor = breakerDcBattery ? GOLD : RED;
+  const bkAcColor = breakerAc ? GOLD : RED;
+  const bkDcPanelChargerColor = breakerDcPanelCharger ? GOLD : RED;
+  const bkDcChargerBatColor = breakerDcChargerBattery ? GOLD : RED;
+  const cableDcPanelColor = cableDcPanel ? GOLD : RED;
+  const cableDcBatColor = cableDcBattery ? GOLD : RED;
+  const cableAcColor = cableAc ? GOLD : RED;
+  const cableTierraColor = cableTierra ? "hsl(50, 90%, 55%)" : RED;
+  const cableDcPanelChargerColor = cableDcPanelCharger ? GOLD : RED;
+  const cableDcChargerBatColor = cableDcChargerBattery ? GOLD : RED;
 
   const systemLabel = config.systemType === 'off-grid' ? 'AISLADO (OFF-GRID)' : config.systemType === 'on-grid' ? 'CONECTADO A RED (ON-GRID)' : 'HIBRIDO';
   const titleText = `DIAGRAMA UNIFILAR — SISTEMA SOLAR ${systemLabel}`;
@@ -64,30 +107,30 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
         
 
         {/* Breaker DC Paneles - between panels and next component */}
-        {!showCharger && breakerDcPanel && (
+        {!showCharger && effBreakerDcPanelAmps && (
           <g transform="translate(90, 170)">
-            <rect x="9" y="0" width="110" height="24" rx="3" fill="hsl(220, 38%, 16%)" stroke="hsl(42, 100%, 50%)" strokeWidth="1" />
-            <text x="65" y="15" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
-              {config.systemType === 'on-grid' ? 'BREAKER DC' : 'BREAKER DC PANELES'} {breakerDcPanel.amps}A
+            <rect x="9" y="0" width="110" height="24" rx="3" fill="hsl(220, 38%, 16%)" stroke={bkDcPanelColor} strokeWidth="1" />
+            <text x="65" y="15" fontSize="7.5" fontFamily="JetBrains Mono" fill={bkDcPanelColor} textAnchor="middle">
+              {config.systemType === 'on-grid' ? 'BREAKER DC' : 'BREAKER DC PANELES'} {effBreakerDcPanelAmps}A{!breakerDcPanel ? ' *' : ''}
             </text>
           </g>
         )}
         {/* Breaker DC Paneles-Cargador (when external charger) */}
-        {showCharger && breakerDcPanelCharger && (
+        {showCharger && effBreakerDcPanelChargerAmps && (
           <g transform="translate(250, 28)">
-            <rect x="0" y="0" width="140" height="22" rx="3" fill="hsl(220, 38%, 16%)" stroke="hsl(42, 100%, 50%)" strokeWidth="1" />
-            <text x="70" y="15" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
-              BK DC PAN→CARG {breakerDcPanelCharger.amps}A
+            <rect x="0" y="0" width="140" height="22" rx="3" fill="hsl(220, 38%, 16%)" stroke={bkDcPanelChargerColor} strokeWidth="1" />
+            <text x="70" y="15" fontSize="7" fontFamily="JetBrains Mono" fill={bkDcPanelChargerColor} textAnchor="middle">
+              BK DC PAN→CARG {effBreakerDcPanelChargerAmps}A{!breakerDcPanelCharger ? ' *' : ''}
             </text>
           </g>
         )}
 
         {/* Cable label: Panel → next */}
-        {(showCharger ? cableDcPanelCharger : cableDcPanel) && (
+        {(showCharger ? (effCableDcPanelChargerSection) : (effCableDcPanelSection)) && (
           <g>
             <rect x="250" y="70" width="90" height="15" rx="3" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(200, 50%, 35%)" strokeWidth="0.5" />
-            <text x="295" y="80" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
-              DC PANELES {(showCharger ? cableDcPanelCharger : cableDcPanel)?.section}
+            <text x="295" y="80" fontSize="7.5" fontFamily="JetBrains Mono" fill={showCharger ? cableDcPanelChargerColor : cableDcPanelColor} textAnchor="middle">
+              DC PANELES {showCharger ? effCableDcPanelChargerSection : effCableDcPanelSection}{(showCharger ? !cableDcPanelCharger : !cableDcPanel) ? ' *' : ''}
             </text>
           </g>
         )}
@@ -116,21 +159,21 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
             </g>
 
             {/* Breaker DC Cargador-Baterías */}
-            {breakerDcChargerBattery && (
+            {effBreakerDcChargerBatteryAmps && (
               <g transform="translate(80, 155)">
-                <rect x="0" y="0" width="150" height="22" rx="3" fill="hsl(220, 38%, 16%)" stroke="hsl(42, 100%, 50%)" strokeWidth="1" />
-                <text x="75" y="15" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
-                  BK DC CARG→BAT {breakerDcChargerBattery.amps}A
+                <rect x="0" y="0" width="150" height="22" rx="3" fill="hsl(220, 38%, 16%)" stroke={bkDcChargerBatColor} strokeWidth="1" />
+                <text x="75" y="15" fontSize="7" fontFamily="JetBrains Mono" fill={bkDcChargerBatColor} textAnchor="middle">
+                  BK DC CARG→BAT {effBreakerDcChargerBatteryAmps}A{!breakerDcChargerBattery ? ' *' : ''}
                 </text>
               </g>
             )}
 
             {/* Lines from charger to batteries */}
-            {cableDcChargerBattery && (
+            {effCableDcChargerBatterySection && (
               <g>
                 <rect x="180" y="182" width="110" height="20" rx="3" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(160, 60%, 40%)" strokeWidth="0.5" />
-                <text x="235" y="194" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
-                  DC REG→BAT {cableDcChargerBattery.section}
+                <text x="235" y="194" fontSize="7" fontFamily="JetBrains Mono" fill={cableDcChargerBatColor} textAnchor="middle">
+                  DC REG→BAT {effCableDcChargerBatterySection}{!cableDcChargerBattery ? ' *' : ''}
                 </text>
               </g>
             )}
@@ -139,11 +182,11 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
             {showBatteries && battery && (
               <>
                 {/* Breaker DC Baterías */}
-                 {breakerDcBattery && (
+                 {effBreakerDcBatteryAmps && (
                   <g transform="translate(250, 410)">
-                    <rect x="0" y="0" width="130" height="22" rx="3" fill="hsl(220, 38%, 16%)" stroke="hsl(42, 100%, 50%)" strokeWidth="1" />
-                    <text x="65" y="15" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
-                      BREAKER DC BAT {breakerDcBattery.amps}A
+                    <rect x="0" y="0" width="130" height="22" rx="3" fill="hsl(220, 38%, 16%)" stroke={bkDcBatColor} strokeWidth="1" />
+                    <text x="65" y="15" fontSize="7.5" fontFamily="JetBrains Mono" fill={bkDcBatColor} textAnchor="middle">
+                      BREAKER DC BAT {effBreakerDcBatteryAmps}A{!breakerDcBattery ? ' *' : ''}
                     </text>
                   </g>
                 )}
@@ -178,11 +221,11 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
                 <line x1="150" y1="218" x2="150" y2="350" stroke="hsl(0, 80%, 55%)" strokeWidth="2" />
                 <line x1="165" y1="218" x2="165" y2="350" stroke="hsl(220, 80%, 55%)" strokeWidth="2" />
                 
-                {cableDcBattery && (
+                {effCableDcBatterySection && (
                   <g>
                     <rect x="300" y="400" width="72" height="14" rx="2" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(200, 50%, 35%)" strokeWidth="0.5" />
-                    <text x="336" y="409" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
-                      DC BAT {cableDcBattery.section}
+                    <text x="336" y="409" fontSize="7.5" fontFamily="JetBrains Mono" fill={cableDcBatColor} textAnchor="middle">
+                      DC BAT {effCableDcBatterySection}{!cableDcBattery ? ' *' : ''}
                     </text>
                   </g>
                 )}
@@ -215,20 +258,20 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
             <polygon points="692,231 700,235 692,239" fill="hsla(22, 70%, 60%, 0.77)" />
 
             {/* Breaker AC */}
-            {breakerAc && (
+            {effBreakerAcAmps && (
               <g transform="translate(595, 230)">
-                <rect x="0" y="0" width="80" height="25" rx="3" fill="hsl(220, 38%, 16%)" stroke="hsl(42, 100%, 50%)" strokeWidth="1" />
-                <text x="40" y="15" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
-                  BK AC {breakerAc.amps}A
+                <rect x="0" y="0" width="80" height="25" rx="3" fill="hsl(220, 38%, 16%)" stroke={bkAcColor} strokeWidth="1" />
+                <text x="40" y="15" fontSize="7.5" fontFamily="JetBrains Mono" fill={bkAcColor} textAnchor="middle">
+                  BK AC {effBreakerAcAmps}A{!breakerAc ? ' *' : ''}
                 </text>
               </g>
             )}
                                    
-            {cableAc && (
+            {effCableAcSection && (
               <g>
-                <rect x="600" y="270" width="72" height="14" rx="2" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(42, 100%, 50%)" strokeWidth="0.5" />
-                <text x="635" y="280" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
-                  AC {cableAc.section}
+                <rect x="600" y="270" width="72" height="14" rx="2" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke={cableAcColor} strokeWidth="0.5" />
+                <text x="635" y="280" fontSize="7.5" fontFamily="JetBrains Mono" fill={cableAcColor} textAnchor="middle">
+                  AC {effCableAcSection}{!cableAc ? ' *' : ''}
                 </text>
               </g>
             )}
@@ -304,11 +347,11 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
             strokeWidth="2"
             strokeDasharray="6 6"
             />
-            {cableTierra && (
+            {effCableTierraSection && (
               <g>
-                <rect x="510" y="410" width="80" height="14" rx="2" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(50, 90%, 55%)" strokeWidth="0.5" />
-                <text x="550" y="420" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(50, 90%, 55%)" textAnchor="middle">
-                  TIERRA {cableTierra.section}
+                <rect x="510" y="410" width="80" height="14" rx="2" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke={cableTierraColor} strokeWidth="0.5" />
+                <text x="550" y="420" fontSize="7.5" fontFamily="JetBrains Mono" fill={cableTierraColor} textAnchor="middle">
+                  TIERRA {effCableTierraSection}{!cableTierra ? ' *' : ''}
                 </text>
               </g>
             )}
@@ -350,11 +393,11 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
             <line x1="240" y1="238" x2="328" y2="238" stroke="hsl(220, 80%, 55%)" strokeWidth="2" />
             <polygon points="320,234 328,238 320,242" fill="hsl(220, 80%, 55%)" />
             
-            {cableDcPanel && (
+            {effCableDcPanelSection && (
               <g>
                 <rect x="247" y="260" width="72" height="14" rx="2" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(200, 50%, 35%)" strokeWidth="0.5" />
-                <text x="283" y="270" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
-                  DC {cableDcPanel.section}
+                <text x="283" y="270" fontSize="7.5" fontFamily="JetBrains Mono" fill={cableDcPanelColor} textAnchor="middle">
+                  DC {effCableDcPanelSection}{!cableDcPanel ? ' *' : ''}
                 </text>
               </g>
             )}
@@ -385,21 +428,21 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
             <polygon points="692,246 700,250 692,254" fill="hsl(209, 77%, 73%)" />
             <line x1="590" y1="235" x2="700" y2="235" stroke="hsla(22, 70%, 60%, 0.77)" strokeWidth="2.5" />
             <polygon points="692,231 700,235 692,239" fill="hsla(22, 70%, 60%, 0.77)" />
-            {cableAc && (
+            {effCableAcSection && (
               <g>
-                <rect x="605" y="260" width="72" height="14" rx="2" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(42, 100%, 50%)" strokeWidth="0.5" />
-                <text x="640" y="270" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
-                  AC {cableAc.section}
+                <rect x="605" y="260" width="72" height="14" rx="2" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke={cableAcColor} strokeWidth="0.5" />
+                <text x="640" y="270" fontSize="7.5" fontFamily="JetBrains Mono" fill={cableAcColor} textAnchor="middle">
+                  AC {effCableAcSection}{!cableAc ? ' *' : ''}
                 </text>
               </g>
             )}
 
             {/* Breaker AC */}
-            {breakerAc && (
+            {effBreakerAcAmps && (
               <g transform="translate(600, 231)">
-                <rect x="0" y="0" width="80" height="25" rx="3" fill="hsl(220, 38%, 16%)" stroke="hsl(42, 100%, 50%)" strokeWidth="1" />
-                <text x="40" y="15" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
-                  BK AC {breakerAc.amps}A
+                <rect x="0" y="0" width="80" height="25" rx="3" fill="hsl(220, 38%, 16%)" stroke={bkAcColor} strokeWidth="1" />
+                <text x="40" y="15" fontSize="7.5" fontFamily="JetBrains Mono" fill={bkAcColor} textAnchor="middle">
+                  BK AC {effBreakerAcAmps}A{!breakerAc ? ' *' : ''}
                 </text>
               </g>
             )}
@@ -451,21 +494,21 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
                 <line x1="390" y1="385" x2="270" y2="385" stroke="hsl(0, 80%, 55%)" strokeWidth="2" />
                 <polygon points="278,381 270,385 278,389" fill="hsl(0, 80%, 55%)" />
 
-                {cableDcBattery && (
+                {effCableDcBatterySection && (
                   <g>
                     <rect x="300" y="400" width="82" height="14" rx="2" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(200, 50%, 35%)" strokeWidth="0.5" />
-                    <text x="340" y="410" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
-                      DC BAT {cableDcBattery.section}
+                    <text x="340" y="410" fontSize="7.5" fontFamily="JetBrains Mono" fill={cableDcBatColor} textAnchor="middle">
+                      DC BAT {effCableDcBatterySection}{!cableDcBattery ? ' *' : ''}
                     </text>
                   </g>
                 )}
 
                 {/* Breaker DC Baterías */}
-                {breakerDcBattery && (
+                {effBreakerDcBatteryAmps && (
                   <g transform="translate(340, 330)">
-                    <rect x="3" y="0" width="100" height="24" rx="3" fill="hsl(220, 38%, 16%)" stroke="hsl(42, 100%, 50%)" strokeWidth="1" />
-                    <text x="55" y="15" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
-                      BK DC BAT {breakerDcBattery.amps}A
+                    <rect x="3" y="0" width="100" height="24" rx="3" fill="hsl(220, 38%, 16%)" stroke={bkDcBatColor} strokeWidth="1" />
+                    <text x="55" y="15" fontSize="7.5" fontFamily="JetBrains Mono" fill={bkDcBatColor} textAnchor="middle">
+                      BK DC BAT {effBreakerDcBatteryAmps}A{!breakerDcBattery ? ' *' : ''}
                     </text>
                   </g>
                 )}
@@ -540,16 +583,20 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
             strokeWidth="2"
             strokeDasharray="6 6"
             />
-            {cableTierra && (
+            {effCableTierraSection && (
               <g>
-                <rect x="510" y="410" width="80" height="14" rx="2" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(50, 90%, 55%)" strokeWidth="0.5" />
-                <text x="550" y="420" fontSize="6.5" fontFamily="JetBrains Mono" fill="hsl(50, 90%, 55%)" textAnchor="middle">
-                  TIERRA {cableTierra.section}
+                <rect x="510" y="410" width="80" height="14" rx="2" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke={cableTierraColor} strokeWidth="0.5" />
+                <text x="550" y="420" fontSize="6.5" fontFamily="JetBrains Mono" fill={cableTierraColor} textAnchor="middle">
+                  TIERRA {effCableTierraSection}{!cableTierra ? ' *' : ''}
                 </text>
               </g>
             )}
           </>
         )}
+        {/* Legend for recommended items */}
+        <text x="10" y={svgHeight - 10} fontSize="8" fontFamily="JetBrains Mono" fill="hsl(0, 80%, 55%)">
+          * Valor recomendado — No disponible en Enertik, conseguir en otro distribuidor
+        </text>
       </svg>
     </div>
   );

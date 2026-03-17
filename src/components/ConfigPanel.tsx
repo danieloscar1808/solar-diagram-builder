@@ -1,5 +1,5 @@
 import { SolarConfig, SystemType, INVERTER_OPTIONS, ACCESSORIES } from '@/types/solar';
-import { getCompatibleBatteries, getCompatiblePanels, getCompatibleCables, getCompatibleChargers, getCompatibleBreakers, needsExternalCharger } from '@/lib/compatibility';
+import { getCompatibleBatteries, getCompatiblePanels, getCompatibleCables, getCompatibleChargers, getCompatibleBreakers, needsExternalCharger, getRecommendedBreaker, getRecommendedCable } from '@/lib/compatibility';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { ChevronDown, ChevronRight, AlertTriangle, Cable, Shield, Zap } from 'lucide-react';
@@ -34,6 +34,12 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
   const compatibleChargers = useMemo(() => getCompatibleChargers(selectedInverter), [selectedInverter]);
   const compatibleDcBreakers = useMemo(() => getCompatibleBreakers(selectedInverter, 'dc'), [selectedInverter]);
   const compatibleAcBreakers = useMemo(() => getCompatibleBreakers(selectedInverter, 'ac'), [selectedInverter]);
+
+  const recommendedDcBreaker = useMemo(() => getRecommendedBreaker(selectedInverter, 'dc'), [selectedInverter]);
+  const recommendedAcBreaker = useMemo(() => getRecommendedBreaker(selectedInverter, 'ac'), [selectedInverter]);
+  const recommendedDcCable = useMemo(() => getRecommendedCable(selectedInverter, 'dc'), [selectedInverter]);
+  const recommendedAcCable = useMemo(() => getRecommendedCable(selectedInverter, 'ac'), [selectedInverter]);
+  const recommendedTierraCable = useMemo(() => getRecommendedCable(selectedInverter, 'tierra'), [selectedInverter]);
 
   const handleSystemTypeChange = (value: SystemType) => {
     const firstInverter = INVERTER_OPTIONS.find(i => i.type === value);
@@ -260,7 +266,10 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
               {config.systemType === 'on-grid' ? 'Breaker DC' : 'Breaker DC Paneles'}
             </label>
             {compatibleDcBreakers.length === 0 ? (
-              <div className="text-xs text-muted-foreground italic p-1">Sin breakers compatibles</div>
+              <div className="flex items-center gap-2 text-xs text-destructive font-semibold p-2 bg-destructive/10 rounded border border-destructive/30">
+                <AlertTriangle className="w-3 h-3" />
+                {recommendedDcBreaker ? `${recommendedDcBreaker.label} — No disponible en Enertik` : 'Sin breakers compatibles'}
+              </div>
             ) : (
               <Select value={config.breakerDcPanelId} onValueChange={v => onChange({ ...config, breakerDcPanelId: v })}>
                 <SelectTrigger className="h-8 text-xs"><SelectValue /></SelectTrigger>
@@ -282,8 +291,11 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
           {showBatteries && !showCharger && (
             <div className="flex flex-col gap-1.5">
               <label className="text-xs text-muted-foreground">Breaker DC Baterías</label>
-              {compatibleDcBreakers.length === 0 ? (
-                <div className="text-xs text-muted-foreground italic p-1">Sin breakers compatibles</div>
+            {compatibleDcBreakers.length === 0 ? (
+              <div className="flex items-center gap-2 text-xs text-destructive font-semibold p-2 bg-destructive/10 rounded border border-destructive/30">
+                <AlertTriangle className="w-3 h-3" />
+                {recommendedDcBreaker ? `${recommendedDcBreaker.label} — No disponible en Enertik` : 'Sin breakers compatibles'}
+              </div>
               ) : (
                 <Select value={config.breakerDcBatteryId} onValueChange={v => onChange({ ...config, breakerDcBatteryId: v })}>
                   <SelectTrigger className="h-8 text-xs"><SelectValue /></SelectTrigger>
@@ -308,7 +320,10 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs text-muted-foreground">Breaker DC: Paneles → Cargador</label>
                 {compatibleDcBreakers.length === 0 ? (
-                  <div className="text-xs text-muted-foreground italic p-1">Sin breakers compatibles</div>
+                  <div className="flex items-center gap-2 text-xs text-destructive font-semibold p-2 bg-destructive/10 rounded border border-destructive/30">
+                    <AlertTriangle className="w-3 h-3" />
+                    {recommendedDcBreaker ? `${recommendedDcBreaker.label} — No disponible en Enertik` : 'Sin breakers compatibles'}
+                  </div>
                 ) : (
                   <Select value={config.breakerDcPanelChargerId} onValueChange={v => onChange({ ...config, breakerDcPanelChargerId: v })}>
                     <SelectTrigger className="h-8 text-xs"><SelectValue /></SelectTrigger>
@@ -328,7 +343,10 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs text-muted-foreground">Breaker DC: Cargador/Regulador → Baterías</label>
                 {compatibleDcBreakers.length === 0 ? (
-                  <div className="text-xs text-muted-foreground italic p-1">Sin breakers compatibles</div>
+                  <div className="flex items-center gap-2 text-xs text-destructive font-semibold p-2 bg-destructive/10 rounded border border-destructive/30">
+                    <AlertTriangle className="w-3 h-3" />
+                    {recommendedDcBreaker ? `${recommendedDcBreaker.label} — No disponible en Enertik` : 'Sin breakers compatibles'}
+                  </div>
                 ) : (
                   <Select value={config.breakerDcChargerBatteryId} onValueChange={v => onChange({ ...config, breakerDcChargerBatteryId: v })}>
                     <SelectTrigger className="h-8 text-xs"><SelectValue /></SelectTrigger>
@@ -354,7 +372,10 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
               {config.systemType === 'hybrid' ? 'Breaker AC Salida' : 'Breaker AC'}
             </label>
             {compatibleAcBreakers.length === 0 ? (
-              <div className="text-xs text-muted-foreground italic p-1">Sin breakers compatibles</div>
+              <div className="flex items-center gap-2 text-xs text-destructive font-semibold p-2 bg-destructive/10 rounded border border-destructive/30">
+                <AlertTriangle className="w-3 h-3" />
+                {recommendedAcBreaker ? `${recommendedAcBreaker.label} — No disponible en Enertik` : 'Sin breakers compatibles'}
+              </div>
             ) : (
               <Select value={config.breakerAcId} onValueChange={v => onChange({ ...config, breakerAcId: v })}>
                 <SelectTrigger className="h-8 text-xs"><SelectValue /></SelectTrigger>
