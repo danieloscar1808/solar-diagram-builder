@@ -593,6 +593,10 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
             )}
           </>
         )}
+        {/* Legend for recommended items */}
+        <text x="10" y={svgHeight - 10} fontSize="8" fontFamily="JetBrains Mono" fill="hsl(0, 80%, 55%)">
+          * Valor recomendado — No disponible en Enertik, conseguir en otro distribuidor
+        </text>
       </svg>
     </div>
   );
