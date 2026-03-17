@@ -428,21 +428,21 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
             <polygon points="692,246 700,250 692,254" fill="hsl(209, 77%, 73%)" />
             <line x1="590" y1="235" x2="700" y2="235" stroke="hsla(22, 70%, 60%, 0.77)" strokeWidth="2.5" />
             <polygon points="692,231 700,235 692,239" fill="hsla(22, 70%, 60%, 0.77)" />
-            {cableAc && (
+            {effCableAcSection && (
               <g>
-                <rect x="605" y="260" width="72" height="14" rx="2" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke="hsl(42, 100%, 50%)" strokeWidth="0.5" />
-                <text x="640" y="270" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
-                  AC {cableAc.section}
+                <rect x="605" y="260" width="72" height="14" rx="2" fill="hsl(220, 38%, 16%)" fillOpacity="0.9" stroke={cableAcColor} strokeWidth="0.5" />
+                <text x="640" y="270" fontSize="7.5" fontFamily="JetBrains Mono" fill={cableAcColor} textAnchor="middle">
+                  AC {effCableAcSection}{!cableAc ? ' *' : ''}
                 </text>
               </g>
             )}
 
             {/* Breaker AC */}
-            {breakerAc && (
+            {effBreakerAcAmps && (
               <g transform="translate(600, 231)">
-                <rect x="0" y="0" width="80" height="25" rx="3" fill="hsl(220, 38%, 16%)" stroke="hsl(42, 100%, 50%)" strokeWidth="1" />
-                <text x="40" y="15" fontSize="7.5" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
-                  BK AC {breakerAc.amps}A
+                <rect x="0" y="0" width="80" height="25" rx="3" fill="hsl(220, 38%, 16%)" stroke={bkAcColor} strokeWidth="1" />
+                <text x="40" y="15" fontSize="7.5" fontFamily="JetBrains Mono" fill={bkAcColor} textAnchor="middle">
+                  BK AC {effBreakerAcAmps}A{!breakerAc ? ' *' : ''}
                 </text>
               </g>
             )}
