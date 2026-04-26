@@ -265,6 +265,7 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
             </SelectContent>
           </Select>
         )}
+        {selectedPanel && <PriceTag price={selectedPanel.priceArs} url={selectedPanel.productUrl} />}
       </div>
 
       {/* Protecciones */}
