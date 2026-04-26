@@ -231,6 +231,7 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
               </SelectContent>
             </Select>
           )}
+          {selectedBattery && <PriceTag price={selectedBattery.priceArs} url={selectedBattery.productUrl} />}
         </div>
       )}
 
