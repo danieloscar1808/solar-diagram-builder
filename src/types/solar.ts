@@ -9,6 +9,8 @@ export interface InverterOption {
   power: number;
   type: SystemType;
   hasCharger: boolean; // inversor/cargador integrado
+  priceArs?: number;
+  productUrl?: string;
 }
 
 export interface BatteryOption {
@@ -20,6 +22,8 @@ export interface BatteryOption {
   capacityAh: number;
   capacityWh: number;
   chemistry: string;
+  priceArs?: number;
+  productUrl?: string;
 }
 
 export interface PanelOption {
@@ -29,6 +33,8 @@ export interface PanelOption {
   brand: string;
   watts: number;
   technology: string;
+  priceArs?: number;
+  productUrl?: string;
 }
 
 export interface CableOption {
@@ -38,6 +44,8 @@ export interface CableOption {
   type: 'dc' | 'ac' | 'tierra';
   maxAmps: number;
   description: string;
+  priceArs?: number;
+  productUrl?: string;
 }
 
 export interface ChargerOption {
@@ -49,6 +57,8 @@ export interface ChargerOption {
   maxAmps: number;
   power: number;
   technology: 'PWM' | 'MPPT';
+  priceArs?: number;
+  productUrl?: string;
 }
 
 export interface BreakerOption {
@@ -60,6 +70,8 @@ export interface BreakerOption {
   amps: number;
   voltage: number;
   description: string;
+  priceArs?: number;
+  productUrl?: string;
 }
 
 export interface SolarConfig {
@@ -80,6 +92,20 @@ export interface SolarConfig {
   breakerDcPanelChargerId: string;
   breakerDcChargerBatteryId: string;
 }
+
+const ENERTIK_BASE = 'https://www.enertik.com.ar';
+export const ENERTIK_URL = ENERTIK_BASE;
+
+export const formatArs = (price?: number): string => {
+  if (price === undefined || price === null || isNaN(price)) return 'Consultar';
+  return new Intl.NumberFormat('es-AR', {
+    style: 'currency',
+    currency: 'ARS',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(price);
+};
+
 
 export const CABLE_OPTIONS: CableOption[] = [
   // Cables DC
