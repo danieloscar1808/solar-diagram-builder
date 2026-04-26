@@ -24,6 +24,20 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
 
   const filteredInverters = INVERTER_OPTIONS.filter(i => i.type === config.systemType);
   const selectedInverter = INVERTER_OPTIONS.find(i => i.id === config.inverterId);
+  const selectedBattery = BATTERY_OPTIONS.find(b => b.id === config.batteryId);
+  const selectedPanel = PANEL_OPTIONS.find(p => p.id === config.panelId);
+  const selectedCharger = CHARGER_OPTIONS.find(c => c.id === config.chargerId);
+  const selectedCableDcPanel = CABLE_OPTIONS.find(c => c.id === config.cableDcPanelId);
+  const selectedCableDcBattery = CABLE_OPTIONS.find(c => c.id === config.cableDcBatteryId);
+  const selectedCableDcPanelCharger = CABLE_OPTIONS.find(c => c.id === config.cableDcPanelChargerId);
+  const selectedCableDcChargerBattery = CABLE_OPTIONS.find(c => c.id === config.cableDcChargerBatteryId);
+  const selectedCableAc = CABLE_OPTIONS.find(c => c.id === config.cableAcId);
+  const selectedCableTierra = CABLE_OPTIONS.find(c => c.id === config.cableTierraId);
+  const selectedBreakerDcPanel = BREAKER_OPTIONS.find(b => b.id === config.breakerDcPanelId);
+  const selectedBreakerDcBattery = BREAKER_OPTIONS.find(b => b.id === config.breakerDcBatteryId);
+  const selectedBreakerAc = BREAKER_OPTIONS.find(b => b.id === config.breakerAcId);
+  const selectedBreakerDcPanelCharger = BREAKER_OPTIONS.find(b => b.id === config.breakerDcPanelChargerId);
+  const selectedBreakerDcChargerBattery = BREAKER_OPTIONS.find(b => b.id === config.breakerDcChargerBatteryId);
   const showBatteries = config.systemType !== 'on-grid';
   const showCharger = needsExternalCharger(selectedInverter);
 
