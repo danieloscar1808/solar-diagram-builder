@@ -85,7 +85,7 @@ const Index = () => {
           <Button
             onClick={handleSave}
             size="sm"
-            className="gap-2 font-mono text-xs tracking-wide bg-green-600 hover:bg-green-700 text-white border-0"
+            className="gap-2 font-mono text-xs tracking-wide bg-success text-success-foreground hover:bg-success/90 border-0"
           >
             <Save className="w-4 h-4" />
             GUARDAR PROYECTO
