@@ -1,10 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { SolarConfig } from '@/types/solar';
 import ConfigPanel from '@/components/ConfigPanel';
 import SolarDiagram from '@/components/SolarDiagram';
 import DiagramActions from '@/components/DiagramActions';
 import BottomNav from '@/components/BottomNav';
-import { Sun, ChevronRight, FileText } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
+import { Sun, ChevronRight, FileText, Save, RotateCcw } from 'lucide-react';
+
+const STORAGE_KEY = 'solar-diagram-config';
 
 const DEFAULT_CONFIG: SolarConfig = {
   systemType: 'off-grid',
@@ -25,9 +29,45 @@ const DEFAULT_CONFIG: SolarConfig = {
   breakerDcChargerBatteryId: 'bk-dc-10',
 };
 
+const loadSavedConfig = (): SolarConfig => {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return DEFAULT_CONFIG;
+    const parsed = JSON.parse(raw);
+    return { ...DEFAULT_CONFIG, ...parsed };
+  } catch {
+    return DEFAULT_CONFIG;
+  }
+};
+
 const Index = () => {
-  const [config, setConfig] = useState<SolarConfig>(DEFAULT_CONFIG);
+  const [config, setConfig] = useState<SolarConfig>(() => loadSavedConfig());
   const [activeTab, setActiveTab] = useState('inicio');
+  const [hasSaved, setHasSaved] = useState<boolean>(() => !!localStorage.getItem(STORAGE_KEY));
+
+  useEffect(() => {
+    if (hasSaved) {
+      toast.success('Configuración restaurada', { description: 'Se cargó tu última configuración guardada.' });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleSave = () => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
+      setHasSaved(true);
+      toast.success('Configuración guardada', { description: 'Se restaurará automáticamente al volver a abrir la app.' });
+    } catch {
+      toast.error('No se pudo guardar la configuración');
+    }
+  };
+
+  const handleReset = () => {
+    localStorage.removeItem(STORAGE_KEY);
+    setConfig(DEFAULT_CONFIG);
+    setHasSaved(false);
+    toast.message('Configuración restablecida', { description: 'Se eliminó la configuración guardada.' });
+  };
 
   return (
     <div className="flex flex-col h-screen bg-background overflow-hidden">
@@ -40,6 +80,29 @@ const Index = () => {
             <span className="font-bold text-lg tracking-tight">SOLAR DIAGRAM</span>
             <span className="text-muted-foreground text-sm font-mono">GENERATOR</span>
           </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button
+            onClick={handleSave}
+            size="sm"
+            variant="default"
+            className="gap-2 font-mono text-xs tracking-wide"
+          >
+            <Save className="w-4 h-4" />
+            GUARDAR CONFIGURACIÓN
+          </Button>
+          {hasSaved && (
+            <Button
+              onClick={handleReset}
+              size="sm"
+              variant="outline"
+              className="gap-2 font-mono text-xs tracking-wide"
+              title="Borrar configuración guardada"
+            >
+              <RotateCcw className="w-4 h-4" />
+              RESTABLECER
+            </Button>
+          )}
         </div>
       </header>
 
