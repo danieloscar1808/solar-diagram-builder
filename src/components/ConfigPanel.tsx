@@ -163,6 +163,7 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
             ))}
           </SelectContent>
         </Select>
+        {selectedInverter && <PriceTag price={selectedInverter.priceArs} url={selectedInverter.productUrl} />}
       </div>
 
       {/* Cargador de Baterías (solo si el inversor no tiene cargador integrado) */}
