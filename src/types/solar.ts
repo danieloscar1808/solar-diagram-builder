@@ -91,6 +91,7 @@ export interface SolarConfig {
   breakerAcId: string;
   breakerDcPanelChargerId: string;
   breakerDcChargerBatteryId: string;
+  quantities?: Record<string, number>;
 }
 
 const ENERTIK_BASE = 'https://www.enertik.com.ar';

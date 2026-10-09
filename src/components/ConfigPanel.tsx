@@ -41,6 +41,9 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
   const selectedBreakerDcChargerBattery = BREAKER_OPTIONS.find(b => b.id === config.breakerDcChargerBatteryId);
   const showBatteries = config.systemType !== 'on-grid';
   const showCharger = needsExternalCharger(selectedInverter);
+  const qtyOf = (k: string) => config.quantities?.[k] ?? 1;
+  const setQty = (k: string, n: number) =>
+    onChange({ ...config, quantities: { ...(config.quantities ?? {}), [k]: Math.max(0, Math.floor(n) || 0) } });
 
   const compatibleBatteries = useMemo(() => getCompatibleBatteries(selectedInverter), [selectedInverter]);
   const compatiblePanels = useMemo(() => getCompatiblePanels(selectedInverter), [selectedInverter]);
@@ -164,7 +167,7 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
             ))}
           </SelectContent>
         </Select>
-        {selectedInverter && <PriceTag price={selectedInverter.priceArs} url={selectedInverter.productUrl} />}
+        {selectedInverter && <PriceTag price={selectedInverter.priceArs} url={selectedInverter.productUrl} qty={qtyOf('selectedInverter')} onQtyChange={n => setQty('selectedInverter', n)} unit={'selectedInverter'.startsWith('selectedCable') ? 'm' : 'u'} />}
       </div>
 
       {/* Cargador de Baterías (solo si el inversor no tiene cargador integrado) */}
@@ -197,7 +200,7 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
               </SelectContent>
             </Select>
           )}
-          {selectedCharger && <PriceTag price={selectedCharger.priceArs} url={selectedCharger.productUrl} />}
+          {selectedCharger && <PriceTag price={selectedCharger.priceArs} url={selectedCharger.productUrl} qty={qtyOf('selectedCharger')} onQtyChange={n => setQty('selectedCharger', n)} unit={'selectedCharger'.startsWith('selectedCable') ? 'm' : 'u'} />}
         </div>
       )}
 
@@ -232,7 +235,7 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
               </SelectContent>
             </Select>
           )}
-          {selectedBattery && <PriceTag price={selectedBattery.priceArs} url={selectedBattery.productUrl} />}
+          {selectedBattery && <PriceTag price={selectedBattery.priceArs} url={selectedBattery.productUrl} qty={qtyOf('selectedBattery')} onQtyChange={n => setQty('selectedBattery', n)} unit={'selectedBattery'.startsWith('selectedCable') ? 'm' : 'u'} />}
         </div>
       )}
 
@@ -266,7 +269,7 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
             </SelectContent>
           </Select>
         )}
-        {selectedPanel && <PriceTag price={selectedPanel.priceArs} url={selectedPanel.productUrl} />}
+        {selectedPanel && <PriceTag price={selectedPanel.priceArs} url={selectedPanel.productUrl} qty={qtyOf('selectedPanel')} onQtyChange={n => setQty('selectedPanel', n)} unit={'selectedPanel'.startsWith('selectedCable') ? 'm' : 'u'} />}
       </div>
 
       {/* Protecciones */}
@@ -305,7 +308,7 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
                 </SelectContent>
               </Select>
             )}
-              {selectedBreakerDcPanel && <PriceTag price={selectedBreakerDcPanel.priceArs} url={selectedBreakerDcPanel.productUrl} />}
+              {selectedBreakerDcPanel && <PriceTag price={selectedBreakerDcPanel.priceArs} url={selectedBreakerDcPanel.productUrl} qty={qtyOf('selectedBreakerDcPanel')} onQtyChange={n => setQty('selectedBreakerDcPanel', n)} unit={'selectedBreakerDcPanel'.startsWith('selectedCable') ? 'm' : 'u'} />}
           </div>
 
           {/* Breaker DC Baterías (off-grid y hybrid, sin cargador externo) */}
@@ -332,7 +335,7 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
                   </SelectContent>
                 </Select>
               )}
-                {selectedBreakerDcBattery && <PriceTag price={selectedBreakerDcBattery.priceArs} url={selectedBreakerDcBattery.productUrl} />}
+                {selectedBreakerDcBattery && <PriceTag price={selectedBreakerDcBattery.priceArs} url={selectedBreakerDcBattery.productUrl} qty={qtyOf('selectedBreakerDcBattery')} onQtyChange={n => setQty('selectedBreakerDcBattery', n)} unit={'selectedBreakerDcBattery'.startsWith('selectedCable') ? 'm' : 'u'} />}
             </div>
           )}
 
@@ -361,7 +364,7 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
                     </SelectContent>
                   </Select>
                 )}
-                  {selectedBreakerDcPanelCharger && <PriceTag price={selectedBreakerDcPanelCharger.priceArs} url={selectedBreakerDcPanelCharger.productUrl} />}
+                  {selectedBreakerDcPanelCharger && <PriceTag price={selectedBreakerDcPanelCharger.priceArs} url={selectedBreakerDcPanelCharger.productUrl} qty={qtyOf('selectedBreakerDcPanelCharger')} onQtyChange={n => setQty('selectedBreakerDcPanelCharger', n)} unit={'selectedBreakerDcPanelCharger'.startsWith('selectedCable') ? 'm' : 'u'} />}
               </div>
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs text-muted-foreground">Breaker DC: Cargador/Regulador → Baterías</label>
@@ -385,7 +388,7 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
                     </SelectContent>
                   </Select>
                 )}
-                  {selectedBreakerDcChargerBattery && <PriceTag price={selectedBreakerDcChargerBattery.priceArs} url={selectedBreakerDcChargerBattery.productUrl} />}
+                  {selectedBreakerDcChargerBattery && <PriceTag price={selectedBreakerDcChargerBattery.priceArs} url={selectedBreakerDcChargerBattery.productUrl} qty={qtyOf('selectedBreakerDcChargerBattery')} onQtyChange={n => setQty('selectedBreakerDcChargerBattery', n)} unit={'selectedBreakerDcChargerBattery'.startsWith('selectedCable') ? 'm' : 'u'} />}
               </div>
             </>
           )}
@@ -415,7 +418,7 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
                 </SelectContent>
               </Select>
             )}
-              {selectedBreakerAc && <PriceTag price={selectedBreakerAc.priceArs} url={selectedBreakerAc.productUrl} />}
+              {selectedBreakerAc && <PriceTag price={selectedBreakerAc.priceArs} url={selectedBreakerAc.productUrl} qty={qtyOf('selectedBreakerAc')} onQtyChange={n => setQty('selectedBreakerAc', n)} unit={'selectedBreakerAc'.startsWith('selectedCable') ? 'm' : 'u'} />}
           </div>
         </div>
       )}
@@ -449,7 +452,7 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
                     ))}
                   </SelectContent>
                 </Select>
-                {selectedCableDcPanelCharger && <PriceTag price={selectedCableDcPanelCharger.priceArs} url={selectedCableDcPanelCharger.productUrl} />}
+                {selectedCableDcPanelCharger && <PriceTag price={selectedCableDcPanelCharger.priceArs} url={selectedCableDcPanelCharger.productUrl} qty={qtyOf('selectedCableDcPanelCharger')} onQtyChange={n => setQty('selectedCableDcPanelCharger', n)} unit={'selectedCableDcPanelCharger'.startsWith('selectedCable') ? 'm' : 'u'} />}
               </div>
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs text-muted-foreground">Cable DC: Cargador/Regulador → Baterías</label>
@@ -466,7 +469,7 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
                     ))}
                   </SelectContent>
                 </Select>
-                {selectedCableDcChargerBattery && <PriceTag price={selectedCableDcChargerBattery.priceArs} url={selectedCableDcChargerBattery.productUrl} />}
+                {selectedCableDcChargerBattery && <PriceTag price={selectedCableDcChargerBattery.priceArs} url={selectedCableDcChargerBattery.productUrl} qty={qtyOf('selectedCableDcChargerBattery')} onQtyChange={n => setQty('selectedCableDcChargerBattery', n)} unit={'selectedCableDcChargerBattery'.startsWith('selectedCable') ? 'm' : 'u'} />}
               </div>
             </>
           ) : (
@@ -487,7 +490,7 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
                     ))}
                   </SelectContent>
                 </Select>
-                {selectedCableDcPanel && <PriceTag price={selectedCableDcPanel.priceArs} url={selectedCableDcPanel.productUrl} />}
+                {selectedCableDcPanel && <PriceTag price={selectedCableDcPanel.priceArs} url={selectedCableDcPanel.productUrl} qty={qtyOf('selectedCableDcPanel')} onQtyChange={n => setQty('selectedCableDcPanel', n)} unit={'selectedCableDcPanel'.startsWith('selectedCable') ? 'm' : 'u'} />}
               </div>
 
               {/* Cable DC Inversor-Batería */}
@@ -507,7 +510,7 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
                       ))}
                     </SelectContent>
                   </Select>
-                  {selectedCableDcBattery && <PriceTag price={selectedCableDcBattery.priceArs} url={selectedCableDcBattery.productUrl} />}
+                  {selectedCableDcBattery && <PriceTag price={selectedCableDcBattery.priceArs} url={selectedCableDcBattery.productUrl} qty={qtyOf('selectedCableDcBattery')} onQtyChange={n => setQty('selectedCableDcBattery', n)} unit={'selectedCableDcBattery'.startsWith('selectedCable') ? 'm' : 'u'} />}
                 </div>
               )}
             </>
@@ -529,7 +532,7 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
                 ))}
               </SelectContent>
             </Select>
-            {selectedCableAc && <PriceTag price={selectedCableAc.priceArs} url={selectedCableAc.productUrl} />}
+            {selectedCableAc && <PriceTag price={selectedCableAc.priceArs} url={selectedCableAc.productUrl} qty={qtyOf('selectedCableAc')} onQtyChange={n => setQty('selectedCableAc', n)} unit={'selectedCableAc'.startsWith('selectedCable') ? 'm' : 'u'} />}
           </div>
 
           {/* Cable Tierra */}
@@ -548,7 +551,7 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
                 ))}
               </SelectContent>
             </Select>
-            {selectedCableTierra && <PriceTag price={selectedCableTierra.priceArs} url={selectedCableTierra.productUrl} />}
+            {selectedCableTierra && <PriceTag price={selectedCableTierra.priceArs} url={selectedCableTierra.productUrl} qty={qtyOf('selectedCableTierra')} onQtyChange={n => setQty('selectedCableTierra', n)} unit={'selectedCableTierra'.startsWith('selectedCable') ? 'm' : 'u'} />}
           </div>
         </div>
       )}
@@ -572,18 +575,19 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
       )}
 
       {(() => {
-        const items = [
-          selectedInverter, selectedPanel,
-          showBatteries ? selectedBattery : undefined,
-          showCharger ? selectedCharger : undefined,
-          selectedBreakerAc,
-          showCharger ? selectedBreakerDcPanelCharger : selectedBreakerDcPanel,
-          showCharger ? selectedBreakerDcChargerBattery : (showBatteries ? selectedBreakerDcBattery : undefined),
-          showCharger ? selectedCableDcPanelCharger : selectedCableDcPanel,
-          showCharger ? selectedCableDcChargerBattery : (showBatteries ? selectedCableDcBattery : undefined),
-          selectedCableAc, selectedCableTierra,
-        ].filter(Boolean) as { priceArs?: number }[];
-        const total = items.reduce((s, i) => s + (i.priceArs ?? 0), 0);
+        const entries: [string, { priceArs?: number } | undefined][] = [
+          ['selectedInverter', selectedInverter], ['selectedPanel', selectedPanel],
+          ['selectedBattery', showBatteries ? selectedBattery : undefined],
+          ['selectedCharger', showCharger ? selectedCharger : undefined],
+          ['selectedBreakerAc', selectedBreakerAc],
+          showCharger ? ['selectedBreakerDcPanelCharger', selectedBreakerDcPanelCharger] : ['selectedBreakerDcPanel', selectedBreakerDcPanel],
+          showCharger ? ['selectedBreakerDcChargerBattery', selectedBreakerDcChargerBattery] : ['selectedBreakerDcBattery', showBatteries ? selectedBreakerDcBattery : undefined],
+          showCharger ? ['selectedCableDcPanelCharger', selectedCableDcPanelCharger] : ['selectedCableDcPanel', selectedCableDcPanel],
+          showCharger ? ['selectedCableDcChargerBattery', selectedCableDcChargerBattery] : ['selectedCableDcBattery', showBatteries ? selectedCableDcBattery : undefined],
+          ['selectedCableAc', selectedCableAc], ['selectedCableTierra', selectedCableTierra],
+        ];
+        const items = entries.filter(([, o]) => o && qtyOf(entries.find(e => e[1] === o)![0]) > 0).map(([k, o]) => ({ ...o!, qty: qtyOf(k) }));
+        const total = items.reduce((s, i) => s + (i.priceArs ?? 0) * i.qty, 0);
         const pending = items.filter(i => i.priceArs === undefined).length;
         return (
           <div className="mt-2 p-3 rounded border border-success/40 bg-success/10 flex flex-col gap-1">
@@ -592,7 +596,7 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
               <span className="text-sm font-mono font-bold text-success">{formatArs(total)}</span>
             </div>
             <span className="text-[10px] text-muted-foreground">
-              Suma de precios unitarios Enertik (cables por metro).{pending > 0 ? ` ${pending} item(s) a consultar no incluidos.` : ''}
+              Precio Enertik por cantidad (cables por metro).{pending > 0 ? ` ${pending} item(s) a consultar no incluidos.` : ''}
             </span>
           </div>
         );
