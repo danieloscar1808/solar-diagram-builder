@@ -9,6 +9,7 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
   const inverter = INVERTER_OPTIONS.find(i => i.id === config.inverterId);
   const battery = BATTERY_OPTIONS.find(b => b.id === config.batteryId);
   const panel = PANEL_OPTIONS.find(p => p.id === config.panelId);
+  const panelQty = config.quantities?.selectedPanel ?? 1;
   const cableDcPanel = CABLE_OPTIONS.find(c => c.id === config.cableDcPanelId);
   const cableDcBattery = CABLE_OPTIONS.find(c => c.id === config.cableDcBatteryId);
   const cableAc = CABLE_OPTIONS.find(c => c.id === config.cableAcId);
@@ -87,13 +88,24 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
       >
         {/* Solar Panels */}
         <g transform="translate(300, 10)">
-          <SolarPanelGroup panelCount={4} />
+          <SolarPanelGroup panelCount={Math.max(1, panelQty)} />
           <text x="100" y="95" className="fill-black" fontSize="10" fontFamily="JetBrains Mono" textAnchor="middle">
             PANELES SOLARES
           </text>
           <text x="100" y="108" className="fill-black" fontSize="9" fontFamily="JetBrains Mono" textAnchor="middle">
             {panel ? `${panel.watts}W ${panel.brand}` : ''}
           </text>
+          {panel && (
+            <g transform="translate(225, 18)">
+              <rect x="0" y="0" width="120" height="44" rx="3" fill="hsl(220, 38%, 16%)" stroke={GOLD} strokeWidth="1" />
+              <text x="60" y="17" fontSize="9" fontFamily="JetBrains Mono" fill={GOLD} textAnchor="middle">
+                CANTIDAD: {panelQty}
+              </text>
+              <text x="60" y="33" fontSize="9" fontFamily="JetBrains Mono" fill={GOLD} textAnchor="middle">
+                TOTAL = {(panel.watts * panelQty).toLocaleString('es-AR')} W
+              </text>
+            </g>
+          )}
         </g>
 
         {/* DC Lines from panels down */}
