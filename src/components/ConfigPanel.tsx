@@ -304,8 +304,8 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
                   ))}
                 </SelectContent>
               </Select>
-              {selectedBreakerDcPanel && <PriceTag price={selectedBreakerDcPanel.priceArs} url={selectedBreakerDcPanel.productUrl} />}
             )}
+              {selectedBreakerDcPanel && <PriceTag price={selectedBreakerDcPanel.priceArs} url={selectedBreakerDcPanel.productUrl} />}
           </div>
 
           {/* Breaker DC Baterías (off-grid y hybrid, sin cargador externo) */}
@@ -331,8 +331,8 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
                     ))}
                   </SelectContent>
                 </Select>
-                {selectedBreakerDcBattery && <PriceTag price={selectedBreakerDcBattery.priceArs} url={selectedBreakerDcBattery.productUrl} />}
               )}
+                {selectedBreakerDcBattery && <PriceTag price={selectedBreakerDcBattery.priceArs} url={selectedBreakerDcBattery.productUrl} />}
             </div>
           )}
 
@@ -360,8 +360,8 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
                       ))}
                     </SelectContent>
                   </Select>
-                  {selectedBreakerDcPanelCharger && <PriceTag price={selectedBreakerDcPanelCharger.priceArs} url={selectedBreakerDcPanelCharger.productUrl} />}
                 )}
+                  {selectedBreakerDcPanelCharger && <PriceTag price={selectedBreakerDcPanelCharger.priceArs} url={selectedBreakerDcPanelCharger.productUrl} />}
               </div>
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs text-muted-foreground">Breaker DC: Cargador/Regulador → Baterías</label>
@@ -384,8 +384,8 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
                       ))}
                     </SelectContent>
                   </Select>
-                  {selectedBreakerDcChargerBattery && <PriceTag price={selectedBreakerDcChargerBattery.priceArs} url={selectedBreakerDcChargerBattery.productUrl} />}
                 )}
+                  {selectedBreakerDcChargerBattery && <PriceTag price={selectedBreakerDcChargerBattery.priceArs} url={selectedBreakerDcChargerBattery.productUrl} />}
               </div>
             </>
           )}
@@ -414,8 +414,8 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
                   ))}
                 </SelectContent>
               </Select>
-              {selectedBreakerAc && <PriceTag price={selectedBreakerAc.priceArs} url={selectedBreakerAc.productUrl} />}
             )}
+              {selectedBreakerAc && <PriceTag price={selectedBreakerAc.priceArs} url={selectedBreakerAc.productUrl} />}
           </div>
         </div>
       )}
