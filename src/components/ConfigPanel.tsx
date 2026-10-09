@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { ChevronDown, ChevronRight, AlertTriangle, Cable, Shield, Zap } from 'lucide-react';
 import { useState, useMemo } from 'react';
 import PriceTag from '@/components/PriceTag';
+import { formatArs } from '@/types/solar';
 
 interface ConfigPanelProps {
   config: SolarConfig;
@@ -304,6 +305,7 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
                 </SelectContent>
               </Select>
             )}
+              {selectedBreakerDcPanel && <PriceTag price={selectedBreakerDcPanel.priceArs} url={selectedBreakerDcPanel.productUrl} />}
           </div>
 
           {/* Breaker DC Baterías (off-grid y hybrid, sin cargador externo) */}
@@ -330,6 +332,7 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
                   </SelectContent>
                 </Select>
               )}
+                {selectedBreakerDcBattery && <PriceTag price={selectedBreakerDcBattery.priceArs} url={selectedBreakerDcBattery.productUrl} />}
             </div>
           )}
 
@@ -358,6 +361,7 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
                     </SelectContent>
                   </Select>
                 )}
+                  {selectedBreakerDcPanelCharger && <PriceTag price={selectedBreakerDcPanelCharger.priceArs} url={selectedBreakerDcPanelCharger.productUrl} />}
               </div>
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs text-muted-foreground">Breaker DC: Cargador/Regulador → Baterías</label>
@@ -381,6 +385,7 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
                     </SelectContent>
                   </Select>
                 )}
+                  {selectedBreakerDcChargerBattery && <PriceTag price={selectedBreakerDcChargerBattery.priceArs} url={selectedBreakerDcChargerBattery.productUrl} />}
               </div>
             </>
           )}
@@ -410,6 +415,7 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
                 </SelectContent>
               </Select>
             )}
+              {selectedBreakerAc && <PriceTag price={selectedBreakerAc.priceArs} url={selectedBreakerAc.productUrl} />}
           </div>
         </div>
       )}
@@ -443,6 +449,7 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
                     ))}
                   </SelectContent>
                 </Select>
+                {selectedCableDcPanelCharger && <PriceTag price={selectedCableDcPanelCharger.priceArs} url={selectedCableDcPanelCharger.productUrl} />}
               </div>
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs text-muted-foreground">Cable DC: Cargador/Regulador → Baterías</label>
@@ -459,6 +466,7 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
                     ))}
                   </SelectContent>
                 </Select>
+                {selectedCableDcChargerBattery && <PriceTag price={selectedCableDcChargerBattery.priceArs} url={selectedCableDcChargerBattery.productUrl} />}
               </div>
             </>
           ) : (
@@ -479,6 +487,7 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
                     ))}
                   </SelectContent>
                 </Select>
+                {selectedCableDcPanel && <PriceTag price={selectedCableDcPanel.priceArs} url={selectedCableDcPanel.productUrl} />}
               </div>
 
               {/* Cable DC Inversor-Batería */}
@@ -498,6 +507,7 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
                       ))}
                     </SelectContent>
                   </Select>
+                  {selectedCableDcBattery && <PriceTag price={selectedCableDcBattery.priceArs} url={selectedCableDcBattery.productUrl} />}
                 </div>
               )}
             </>
@@ -519,6 +529,7 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
                 ))}
               </SelectContent>
             </Select>
+            {selectedCableAc && <PriceTag price={selectedCableAc.priceArs} url={selectedCableAc.productUrl} />}
           </div>
 
           {/* Cable Tierra */}
@@ -537,6 +548,7 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
                 ))}
               </SelectContent>
             </Select>
+            {selectedCableTierra && <PriceTag price={selectedCableTierra.priceArs} url={selectedCableTierra.productUrl} />}
           </div>
         </div>
       )}
@@ -559,6 +571,32 @@ const ConfigPanel = ({ config, onChange }: ConfigPanelProps) => {
         </ul>
       )}
 
+      {(() => {
+        const items = [
+          selectedInverter, selectedPanel,
+          showBatteries ? selectedBattery : undefined,
+          showCharger ? selectedCharger : undefined,
+          selectedBreakerAc,
+          showCharger ? selectedBreakerDcPanelCharger : selectedBreakerDcPanel,
+          showCharger ? selectedBreakerDcChargerBattery : (showBatteries ? selectedBreakerDcBattery : undefined),
+          showCharger ? selectedCableDcPanelCharger : selectedCableDcPanel,
+          showCharger ? selectedCableDcChargerBattery : (showBatteries ? selectedCableDcBattery : undefined),
+          selectedCableAc, selectedCableTierra,
+        ].filter(Boolean) as { priceArs?: number }[];
+        const total = items.reduce((s, i) => s + (i.priceArs ?? 0), 0);
+        const pending = items.filter(i => i.priceArs === undefined).length;
+        return (
+          <div className="mt-2 p-3 rounded border border-success/40 bg-success/10 flex flex-col gap-1">
+            <div className="flex justify-between items-center">
+              <span className="text-xs font-semibold text-foreground">TOTAL ESTIMADO</span>
+              <span className="text-sm font-mono font-bold text-success">{formatArs(total)}</span>
+            </div>
+            <span className="text-[10px] text-muted-foreground">
+              Suma de precios unitarios Enertik (cables por metro).{pending > 0 ? ` ${pending} item(s) a consultar no incluidos.` : ''}
+            </span>
+          </div>
+        );
+      })()}
       <Button className="mt-auto font-semibold tracking-wide">
         GENERAR DIAGRAMA
       </Button>
