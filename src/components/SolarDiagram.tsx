@@ -88,7 +88,7 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
       >
         {/* Solar Panels */}
         <g transform="translate(300, 10)">
-          <SolarPanelGroup panelCount={Math.max(1, panelQty)} />
+          <SolarPanelGroup panelCount={4} />
           <text x="100" y="95" className="fill-black" fontSize="10" fontFamily="JetBrains Mono" textAnchor="middle">
             PANELES SOLARES
           </text>
