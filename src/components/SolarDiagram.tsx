@@ -10,6 +10,7 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
   const battery = BATTERY_OPTIONS.find(b => b.id === config.batteryId);
   const panel = PANEL_OPTIONS.find(p => p.id === config.panelId);
   const panelQty = config.quantities?.selectedPanel ?? 1;
+  const batteryQty = config.quantities?.selectedBattery ?? 1;
   const cableDcPanel = CABLE_OPTIONS.find(c => c.id === config.cableDcPanelId);
   const cableDcBattery = CABLE_OPTIONS.find(c => c.id === config.cableDcBatteryId);
   const cableAc = CABLE_OPTIONS.find(c => c.id === config.cableAcId);
@@ -209,6 +210,11 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
                   <text x="100" y="34" fontSize="9" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
                     {battery.voltage}V / {(battery.capacityWh / 1000).toFixed(1)} kWh
                   </text>
+                  <g transform="translate(136, 44)">
+                    <rect x="0" y="0" width="58" height="34" rx="3" fill="hsl(220, 30%, 20%)" stroke="hsl(42, 100%, 50%)" strokeWidth="1" />
+                    <text x="29" y="13" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 90%)" textAnchor="middle">CANTIDAD</text>
+                    <text x="29" y="28" fontSize="12" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle" fontWeight="bold">{batteryQty}</text>
+                  </g>
                   {Array.from({ length: 4 }).map((_, i) => (
                     <g key={i} transform={`translate(${20 + i * 28}, 44)`}>
                       <rect x="0" y="0" width="22" height="32" rx="2" fill="hsl(220, 30%, 20%)" stroke="hsl(200, 50%, 35%)" strokeWidth="1" />
@@ -532,6 +538,11 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
                   <text x="100" y="34" fontSize="9" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle">
                     {battery.voltage}V / {(battery.capacityWh / 1000).toFixed(1)} kWh
                   </text>
+                  <g transform="translate(136, 44)">
+                    <rect x="0" y="0" width="58" height="34" rx="3" fill="hsl(220, 30%, 20%)" stroke="hsl(42, 100%, 50%)" strokeWidth="1" />
+                    <text x="29" y="13" fontSize="7" fontFamily="JetBrains Mono" fill="hsl(210, 20%, 90%)" textAnchor="middle">CANTIDAD</text>
+                    <text x="29" y="28" fontSize="12" fontFamily="JetBrains Mono" fill="hsl(42, 100%, 50%)" textAnchor="middle" fontWeight="bold">{batteryQty}</text>
+                  </g>
                   {Array.from({ length: 4 }).map((_, i) => (
                     <g key={i} transform={`translate(${20 + i * 28}, 44)`}>
                       <rect x="0" y="0" width="22" height="32" rx="2" fill="hsl(220, 30%, 20%)" stroke="hsl(200, 50%, 35%)" strokeWidth="1" />
