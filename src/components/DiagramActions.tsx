@@ -67,10 +67,6 @@ const DiagramActions = () => {
         <Save className="w-4 h-4" />
         GUARDAR PROYECTO
       </Button>
-      <Button onClick={handleShare} variant="secondary" className="gap-2 font-mono text-xs tracking-wide bg-accent hover:bg-accent/80 text-accent-foreground">
-        <Share2 className="w-4 h-4" />
-        COMPARTIR
-      </Button>
     </div>
   );
 };
