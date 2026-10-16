@@ -114,7 +114,7 @@ const Index = () => {
           <div className="flex-1 p-4">
             <SolarDiagram config={config} />
           </div>
-          <div className="absolute top-6 right-6">
+          <div className="absolute top-20 right-6">
             <DiagramActions />
           </div>
           <div className="flex justify-center pb-2">
