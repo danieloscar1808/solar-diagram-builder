@@ -78,7 +78,7 @@ const SolarDiagram = ({ config }: SolarDiagramProps) => {
 
   return (
     <div id="solar-diagram-export" className="diagram-container blueprint-grid w-full h-full overflow-auto p-4 flex flex-col">
-      <h3 className="text-center font-mono text-sm tracking-widest text-foreground mb-4 border-b border-diagram-border pb-2">
+      <h3 className="text-center font-mono text-sm font-bold tracking-widest text-primary-foreground mb-4 border-b border-diagram-border pb-2">
         {titleText}
       </h3>
       <svg
